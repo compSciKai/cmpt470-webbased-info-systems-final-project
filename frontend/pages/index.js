@@ -1,10 +1,12 @@
 import { Distribution, Box, Text} from "grommet";
 import { WelcomeCard } from "../components/Card";
+import { MyLineChart } from "../components/Chart";
 
 export default function Home() {
     return (
         <div style={{height: "50vh"}}>
             <WelcomeCard style={{width: "400px"}}/>
+            <MyLineChart />
             <Distribution fill={true}
                           values={[
                               { value: 50, color: 'light-3' },
