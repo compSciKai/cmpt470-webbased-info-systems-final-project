@@ -66,3 +66,32 @@ app.listen(3030).on('listening', () =>
 app.service('messages').create({
     text: 'Hello world from the server'
 });
+
+/*
+FRONTEND
+-dashboard
+-bots
+
+BACKEND
+-serve dashboard webpage
+-serve bot
+-serve login requests 
+-access user database
+-fetch COVID-19 data 
+
+BACKEND STRUCTURE
+main.js - uses all files | starts the server, serves the main webpages, calls the code of other features to work together
+dashboard.js - uses catchCovid19.js | communicates with client dashboard webpage
+bot.js - 
+login.js - uses database.js | communicates with client webpage to allow login
+database.js - handles accessing and writing to database
+catchCovid19.js - gets either data from the COVID-19 site or the cache
+
+/
+/dashboard
+
+EXTERNAL
+-user database
+-COVID-19 data
+
+*/
