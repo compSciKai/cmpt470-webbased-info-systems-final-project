@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu } from 'grommet-icons';
 import { Box, Button, Collapsible, Heading, Main, Anchor } from 'grommet';
 import Link from 'next/link'
+
 export function DefaultLayout(props) {
   const [nav, setNav] = useState(false);
 
@@ -32,7 +33,6 @@ export function DefaultLayout(props) {
 {/* Nav Bar */}
         <Collapsible direction="horizontal" open={nav}>
           <Box flex width="medium" background="light-2" pad="small" elevation="small">
-            <Anchor href="/" size="xlarge" margin={{vertical:"10px"}} alignSelf="center">HOME</Anchor>
             <Anchor href="/bots" size="xlarge" margin={{vertical:"10px"}} alignSelf="center">CHAT BOTS</Anchor>
             <Anchor href="/covidInfo" size="xlarge" margin={{vertical:"10px"}} alignSelf="center">COVID INFO</Anchor>
             <Anchor href="/about" size="xlarge" margin={{vertical:"10px"}} alignSelf="center">ABOUT US</Anchor>
