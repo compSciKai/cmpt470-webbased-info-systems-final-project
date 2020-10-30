@@ -1,5 +1,12 @@
+import {Box, Text} from "grommet";
+import Head from 'next/head'
 export default function Bots(props){
   return (
-    <h1>About</h1>
+    <Box>
+      <Head>
+        <title>Bubbly | About</title> 
+      </Head>
+      <Text size="xlarge">About</Text>
+    </Box>
   )
 }
