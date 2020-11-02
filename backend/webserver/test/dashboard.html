@@ -14,7 +14,11 @@
                     console.log(s);
                     display(j.text);
                 });
+
+                // Problem: how do we make sure this URL actually leads to the server?
+                // One way is for the server to modify the webpage to have the server's public facing IP and port before sending it off to the client
                 x.open("POST", "http://localhost:1234/api/dashboard"); // Prepare a POST request to this URL
+
                 x.setRequestHeader("Content-Type", "application/JSON"); // Since we want to send JSON data, set the content-type correctly so Express can parse it correctly.
                 x.send(JSON.stringify({"location": "Vancouver"})); // Send a string made from a JS object.
             }
