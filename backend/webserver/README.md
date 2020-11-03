@@ -1,4 +1,8 @@
-#Authentication
-Passport will be used as a middleware to authenticate (either with google or with mongoDB after that's setup)
-`npm install`
-`npm install passport`
+# Authentication <br />
+- Users will be able to sign up with a user name and password
+- Users will be able to sign in with a known credential if they have previously signed up
+- Users will be able to authenticate with google (tentative)
+## Passport 
+A middleware to help authenticate (with google or mongoDB) <br />
+Run the following commands in the main directory to install dependencies <br/> <br/>
+`npm install passport` <br/> <br/>
