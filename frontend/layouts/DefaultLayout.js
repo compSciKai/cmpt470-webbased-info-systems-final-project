@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Menu } from 'grommet-icons';
+import { Menu, User } from 'grommet-icons';
 import { Box, Button, Collapsible, Heading, Main, Anchor } from 'grommet';
 import Link from 'next/link'
-
 export function DefaultLayout(props) {
   const [nav, setNav] = useState(false);
 
@@ -19,7 +18,7 @@ export function DefaultLayout(props) {
         style={{zIndex: '1000'}}
       >
         <Heading level={3} margin="none" color="white">
-          <strong>Bubbly</strong>
+        <Anchor href="/" size="xlarge" margin={{vertical:"10px"}} alignSelf="center">BUBBLY</Anchor>
         </Heading>
         <Button onClick={() => setNav(!nav)}
           icon={<Menu color="white"/>}
@@ -33,9 +32,12 @@ export function DefaultLayout(props) {
 {/* Nav Bar */}
         <Collapsible direction="horizontal" open={nav}>
           <Box flex width="medium" background="light-2" pad="small" elevation="small">
-            <Anchor href="/bots" size="xlarge" margin={{vertical:"10px"}} alignSelf="center">CHAT BOTS</Anchor>
-            <Anchor href="/covidInfo" size="xlarge" margin={{vertical:"10px"}} alignSelf="center">COVID INFO</Anchor>
-            <Anchor href="/about" size="xlarge" margin={{vertical:"10px"}} alignSelf="center">ABOUT US</Anchor>
+            <Anchor href="/bots" size="xlarge" margin={{vertical:"8px"}} alignSelf="end">BUBBLE BOTS</Anchor>
+            <Anchor href="/covidInfo" size="xlarge" margin={{vertical:"8px"}} alignSelf="end">COVID INFO</Anchor>
+            <Anchor href="/about" size="xlarge" margin={{vertical:"8px"}} alignSelf="end">ABOUT US</Anchor>
+            <Box alignSelf="end" margin={{vertical:"8px"}}>
+              <User color="brand" size="medium"/>
+            </Box>
           </Box>
         </Collapsible>
       </Box>

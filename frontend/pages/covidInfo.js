@@ -1,11 +1,11 @@
-import {Box, Text} from "grommet";
+import {Box, Text} from "grommet"
 import Head from 'next/head'
 
-export default function Bots(props){
+export default function CovidInfo(props){
   return (
     <Box>
       <Head>
-        <title>Bubbly | Covid Info</title> 
+        <title>Bubbly | COVID INFO</title> 
       </Head>
       <Text size="xlarge">Covid Info</Text>
     </Box>
