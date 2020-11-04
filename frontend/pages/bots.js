@@ -5,9 +5,9 @@ export default function Bots(props){
   return (
     <Box >
       <Head>
-        <title>Bubbly | Bots</title> 
+        <title>Bubbly | BUBBLE BOTS</title> 
       </Head>
-      <Text alignSelf="center" size="xlarge">Bots page</Text>
+      <Text alignSelf="center" size="xlarge">Bubble Bots</Text>
       <Tabs>
         <Tab title="Discord">
           <BotDetails botName="Discord" linkToBot="/"/>

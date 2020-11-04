@@ -2,12 +2,13 @@ import { Distribution, Box, Text, Grid} from "grommet";
 import { WelcomeCard } from "../components/Card";
 import { MyLineChart } from "../components/Chart";
 import { Counts } from "../components/Counts";
-import Head from 'next/head'
+import Head from 'next/head';
+
 export default function Home(props) {
   return (
     <Box gap='medium'>
       <Head>
-        <title>Bubbly | Home</title> 
+        <title>Bubbly | HOME</title> 
       </Head>
       <Counts pad />
       <MyLineChart gridArea="nav" background="light-5" />
