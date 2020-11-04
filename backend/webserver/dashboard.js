@@ -16,6 +16,9 @@ class DashboardService {
                 throw err;
             }
             res.set('Content-Type', 'text/javascript');
+            // Warning! If the address/port that the client's script connects to doesn't match the address:port that the user navigated to in their browser,
+            // the browser may deny the request as it is a CORS.
+            // e.g., User goes to page at localhost:1234. A script on that page tries to reach 192.168.0.11:1234/something. Browser blocks the CORS for security reasons as localhost != 192.168.0.11
             res.send(`const ADDR = "${self.addr}";\nconst PORT = "${self.port}";\n${data}`);
         });
     }
