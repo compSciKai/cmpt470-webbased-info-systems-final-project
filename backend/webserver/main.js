@@ -36,7 +36,7 @@ var port = server.address().port;
 const db = new DatabaseService(); // Manages access to the database. Many components below will use this.
 
 // Scraping
-const scrape = new ScrapeService(); // The code that scrapes from the BC COVID-19 site.
+const scrapeService = new ScrapeService(); // The code that scrapes from the BC COVID-19 site.
 
 // Bot
 const bot = new BotService(); // Handles running the bots and showing users where they can manage bots
@@ -57,4 +57,7 @@ app.use('/dashboard', express.static('./test/dashboard.html'));
 app.use('/js/dashboard', (req, res, next) => dashboard.createClientScript(req, res, next));
 // Used as an endpoint for the client's JS file to communicate with the server.
 app.use('/api/dashboard', dashboard.handleRequest); // If you don't need "this" in the function, you don't need to wrap it.
+
+
+app.use('/scrape', scrapeService)
 console.log(`Started up dashboard service`);
