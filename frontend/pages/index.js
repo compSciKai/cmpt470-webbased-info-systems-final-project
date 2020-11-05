@@ -1,30 +1,32 @@
-import { Distribution, Box, Text} from "grommet";
+import { Distribution, Box, Text, Grid} from "grommet";
 import { WelcomeCard } from "../components/Card";
 import { MyLineChart } from "../components/Chart";
+import { Counts } from "../components/Counts";
 
-export default function Home() {
-    return (
-        <div style={{height: "50vh"}}>
-            <WelcomeCard style={{width: "400px"}}/>
-            <MyLineChart />
-            <Distribution fill={true}
-                          values={[
-                              { value: 50, color: 'light-3' },
-                              { value: 30, color: 'brand' },
-                              { value: 20, color: 'graph-0' },
-                              { value: 10, color: 'light-3' },
-                              { value: 5, color: 'brand' },
-                          ]}
-            >
-                {value => (
-                    <Box pad="small" background={value.color} fill>
-                        <Text size="large">{value.value}</Text>
-                    </Box>
-                )}
-            </Distribution>
-        </div>
-
-)
+export default function Home(props) {
+  return (
+    <Box gap='medium'>
+      <Counts pad />
+      <MyLineChart gridArea="nav" background="light-5" />
+    </Box>
+      // <Distribution
+      //   fill={true}
+      //   values={[
+      //     {value: 50, color: 'light-3'},
+      //     {value: 30, color: 'brand'},
+      //     {value: 20, color: 'graph-0'},
+      //     // {value: 10, color: 'light-3'},
+      //     // {value: 5, color: 'brand'},
+      //
+      //   ]}
+      // >
+      //   {value => (
+      //     <Box pad="small" background={value.color} fill>
+      //       <Text size="large">{value.value}</Text>
+      //     </Box>
+      //   )}
+      // </Distribution>
+  )
 }
 
 function Welcome(props) {
