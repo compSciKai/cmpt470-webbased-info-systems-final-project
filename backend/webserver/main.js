@@ -1,5 +1,8 @@
 const process = require('process');
 
+const DatabaseService = require('./database.js');
+const ScrapeService = require('./scrape.js');
+const BotService = require('./bot.js');
 const DashboardService = require('./dashboard.js');
 
 const feathers = require('@feathersjs/feathers');
@@ -30,13 +33,13 @@ var port = server.address().port;
 
 
 // Database
-//const db = new DatabaseService(); // Manages access to the database. Many components below will use this.
+const db = new DatabaseService(); // Manages access to the database. Many components below will use this.
 
 // Scraping
-//const scrape = new ScrapeService(); // The code that scrapes from the BC COVID-19 site.
+const scrape = new ScrapeService(); // The code that scrapes from the BC COVID-19 site.
 
 // Bot
-//const bot = new BotService(); // Handles running the bots and showing users where they can manage bots
+const bot = new BotService(); // Handles running the bots and showing users where they can manage bots
 //app.use('/bot', ...) // TBD Main webpage where a user can add a bot to their chat
 
 // Login
