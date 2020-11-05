@@ -8,8 +8,10 @@ const DashboardService = require('./dashboard.js');
 const feathers = require('@feathersjs/feathers');
 const express = require('@feathersjs/express');
 const socketio = require('@feathersjs/socketio');
+const cors = require('cors')
 
 const app = express(feathers());
+app.use(cors())
 
 // Parse HTTP JSON bodies
 app.use(express.json());
