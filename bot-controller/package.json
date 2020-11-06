@@ -1,0 +1,26 @@
+{
+  "name": "bot-controller",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "bottender dev",
+    "lint": "eslint . ",
+    "start": "bottender start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bottender": "1.4.10",
+    "eslint": "7.12.1",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "express": "^4.17.1",
+    "jest": "26.6.2",
+    "prettier": "2.1.2"
+  },
+  "description": "This project was bootstrapped with [Bottender](https://github.com/Yoctol/bottender) init script.",
+  "main": "index.js",
+  "devDependencies": {},
+  "author": "Kainoa Seaman",
+  "license": "ISC"
+}
