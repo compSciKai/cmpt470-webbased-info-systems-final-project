@@ -16,11 +16,12 @@
     </div>
     <div id="card">
         <h2>Enter Account Information</h2>
-        <form id = "form">
-            <input type="text" title="username" placeholder="username" id="username">
-            <input type="password" title="password" placeholder="password" id="password">
-            <input type="submit" title="login" class="btn" value="Login" id="submit">
-            <input type="checkbox" title="remember" class="check_box" id="Remember_Me">
+        <% if (messages.error) {messages.error} %>
+        <form id = "form" action="/login" method="POST">
+            <input type="text" title="email" placeholder="email" name="email" id="username">
+            <input type="password" title="password" placeholder="password" name="password" id="password">
+            <input type="submit" title="login" class="btn" value="Login" name="submite" id="submit">
+            <input type="checkbox" title="remember" class="check_box" name="check_box" id="Remember_Me">
             <label for="Remember_Me">Remember Me</label>
             <a href="/register">Register</a>
             <br><div id="message"></div>
@@ -138,8 +139,5 @@
     var remember_me = document.getElementById("Remember_Me");
     var message = document.getElementById("message");
     var form = document.getElementById("form");
-    form.onsubmit = function f(e){
-        e.preventDefault();
-    }
 </script>
 </html>
