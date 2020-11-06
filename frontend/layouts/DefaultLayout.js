@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Menu } from 'grommet-icons';
 import { Box, Button, Collapsible, Heading, Text, Main } from 'grommet';
 
-export function DefaultLayout(props) {
+export default function DefaultLayout(props) {
   const [nav, setNav] = useState(false);
 
   return (
