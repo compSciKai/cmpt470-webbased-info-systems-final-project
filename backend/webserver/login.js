@@ -1,14 +1,19 @@
 const express = require('express');
+const ejs = require('ejs');
+const path = require('path')
 const app = express();
 
-app.set('view-engine', 'ejs');
+app.listen(3000);
+app.set('views', path.join(__dirname, '..', '..', 'frontend', 'pages'));
 
-var username = document.getElementById("username");
-var password = document.getElementById("password");
-var remember_me = document.getElementById("Remember_Me");
-var message = document.getElementById("message");
-var form = document.getElementById("form");
-form.onsubmit = function f(e){
-    e.preventDefault();
+app.get('/', (req, res) => {
+    res.render('login.ejs')
+})
 
-}
+app.get('/register', (req, res) => {
+    res.render('register.ejs')
+})
+
+app.post('/register', ((req, res) => {
+
+}))
