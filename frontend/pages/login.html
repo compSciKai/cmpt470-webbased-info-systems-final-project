@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="login.css" ;>
+    <meta charset="UTF-8">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <title>WebRacoon COVID Tracker</title>
+</head>
+<body>
+
+<div class="login_form" id="login_form">
+    <div id="logo">
+        <img src="https://static.scientificamerican.com/sciam/cache/file/0B4ED7B8-6C6A-4031-BEE1253D115FD0CC_source.jpg?w=590&h=800&9717A2E2-EE9D-4CD5-A52BB4E3ED51CBF4" style="width: 50%">
+    </div>
+    <div id="card">
+        <h2>Enter Account Information</h2>
+        <form id = "form">
+            <input type="text" title="username" placeholder="username" id="username">
+            <input type="password" title="password" placeholder="password" id="password">
+            <input type="submit" title="login" class="btn" value="Login" id="submit">
+            <input type="checkbox" title="remember" class="check_box" id="Remember_Me">
+            <label for="Remember_Me">Remember Me</label>
+            <br><div id="message"></div>
+        </form>
+    </div>
+</div>
+
+</body>
+<script src="../../backend/webserver/login.js"></script>
+</html>
