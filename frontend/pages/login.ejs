@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="login.css" ;>
     <meta charset="UTF-8">
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
@@ -23,6 +22,7 @@
             <input type="submit" title="login" class="btn" value="Login" id="submit">
             <input type="checkbox" title="remember" class="check_box" id="Remember_Me">
             <label for="Remember_Me">Remember Me</label>
+            <a href="/register">Register</a>
             <br><div id="message"></div>
         </form>
     </div>
@@ -55,5 +55,91 @@
 </div>
 
 </body>
-<script src="../../backend/webserver/login.js"></script>
+<style>
+    body{
+        background-image: url("https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+        font-family: 'open sans',  helvetica, arial, sans;
+        display: block;
+    }
+
+    #logo{
+        text-align: center;
+        display: block;
+        margin: auto;
+    }
+
+    #message{
+        font-weight: bold;
+        margin: unset;
+        font-style: oblique;
+        font-size: small;
+        color: grey;
+    }
+
+    #login_form{
+        position: fixed;
+        display: block;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+
+
+    }
+    #card{
+        background: #dedede;
+        display: block;
+        border-radius: 10px;
+        box-shadow: black 0px 1px 2px;
+        max-width: 700px;
+        min-width: 700px;
+    }
+
+    #card:hover{
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -ms-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        transition: all 1s ease;
+        box-shadow: black 0px 3px 10px;
+    }
+
+    form{
+        width: 100%;
+        padding: 2em;
+    }
+
+    h2{
+        text-align: center;
+        margin: auto;
+        background: grey;
+        color: #dedede;
+        font-weight: lighter;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-left: black 1px;
+        border-right: black 1px;
+    }
+
+    .g-signin2{
+        margin: unset;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        padding-top: 15px;
+    }
+    a {
+        position: relative;
+        left: 50px;
+    }
+</style>
+<script>
+    var username = document.getElementById("username");
+    var password = document.getElementById("password");
+    var remember_me = document.getElementById("Remember_Me");
+    var message = document.getElementById("message");
+    var form = document.getElementById("form");
+    form.onsubmit = function f(e){
+        e.preventDefault();
+    }
+</script>
 </html>
