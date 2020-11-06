@@ -31,7 +31,6 @@ class ScrapeService {
                 return "Unable to query covid data"
             }
         }
-
         return this.covidData
     }
 }
