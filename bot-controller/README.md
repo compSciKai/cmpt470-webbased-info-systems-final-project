@@ -1,10 +1,34 @@
-npm install
+### `npm install`
 
 ^ to download dependencies
 
-npm run -- --console
+### `npm run -- --console`
 
 ^ to interact with bot through the console (for testing)
+
+### `npm run dev`
+
+^ to generate development webhooks
+
+### `npx bottender messenger webhook set`
+
+^ to tell Facebook where your server webhook is located
+(Must manually set webhooks in https://www.twilio.com/console to set up 
+ whatsapp webhook)
+
+- Login: kseaman@sfu.ca
+- Pass: qCyDu8rjEptND2M
+- All Products & Services > Programmable Messaging > Settings > Whatsapp Sandbox 
+  Settings >
+- paste webhook URL in <when a message comes in> & <status callback url>
+
+Go to https://www.facebook.com/SFU-Computing-470-Final-Project-117136746856965
+To interact with Facebook Messenger Bot.
+
+Install whatsapp & send "join most-trace" to 14155238886 and then interact with
+Whatsapp Bot. 
+
+
 
 
 ## Configuration
