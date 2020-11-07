@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-.env
+webserver/.env
 
 # next.js
 /.next/

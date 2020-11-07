@@ -2,12 +2,12 @@
 
 // Sends a request to the server to get an update for a location locationName.
 function getUpdate(locationName) {
-    x = new XMLHttpRequest();
+    let x = new XMLHttpRequest();
     x.addEventListener('load', function(e) {
         var j = JSON.parse(x.response); // Get a JS object. Access fields with dot or []
         var s = JSON.stringify(x.response); // Get a string representation.
-        console.log(s);
-        display(j.text);
+        console.log(x.response);
+        display(x.response);
     });
 
     // Problem: how do we make sure this URL actually leads to the server?
@@ -15,7 +15,7 @@ function getUpdate(locationName) {
     x.open("POST", `http://${ADDR}:${PORT}/api/dashboard`); // Prepare a POST request to this URL
 
     x.setRequestHeader("Content-Type", "application/JSON"); // Since we want to send JSON data, set the content-type correctly so Express can parse it correctly.
-    x.send(JSON.stringify({"location": "Vancouver"})); // Send a string made from a JS object.
+    x.send(); // Send a string made from a JS object.
 }
 
 // Renders a message on the page

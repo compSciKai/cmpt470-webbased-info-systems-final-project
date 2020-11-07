@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <title>WebRacoon COVID Tracker</title>
+</head>
+<body>
+
+<div class="login_form" id="login_form">
+    <div id="card">
+        <h2>Enter Account Information</h2>
+        <form id = "form" action="/register" method="POST">
+            <div>
+                <input type="text" title="username" placeholder="username" name="name" id="username">
+            </div>
+            <div>
+                <input type="email" title="email" placeholder="email" name="email" id="email">
+            </div>
+            <div>
+                <input type="password" title="password" placeholder="password" name="password" id="password">
+            </div>
+            <div>
+                <input type="submit" title="register" class="btn" value="Register" name="submit" id="submit">
+            </div>
+            <a href="/login">Return to login</a>
+            <br><div id="message"></div>
+        </form>
+    </div>
+    <html>
+    <head>
+        <meta name="google-signin-client_id" content="StillNeedToRegisterAppIDWithGoogle.apps.googleusercontent.com">
+    </head>
+    <body>
+    <div id="my-signin2"></div>
+    <script>
+        function onSuccess(googleUser) {
+            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+        }
+        function onFailure(error) {
+            console.log(error);
+        }
+        function renderButton() {
+            gapi.signin2.render('my-signin2', {
+                'scope': 'profile email',
+                'width': 240,
+                'height': 50,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': onSuccess,
+                'onfailure': onFailure
+            });
+        }
+    </script>
+
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    </body>
+    </html>
+
+</div>
+
+</body>
+<style>
+    body{
+        background-image: url("https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+        font-family: 'open sans',  helvetica, arial, sans;
+        display: block;
+    }
+
+    #logo{
+        text-align: center;
+        display: block;
+        margin: auto;
+    }
+
+    #message{
+        font-weight: bold;
+        margin: unset;
+        font-style: oblique;
+        font-size: small;
+        color: grey;
+    }
+
+    #login_form{
+        position: fixed;
+        display: block;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+
+
+    }
+    #card{
+        background: #dedede;
+        display: block;
+        border-radius: 10px;
+        box-shadow: black 0px 1px 2px;
+        max-width: 700px;
+        min-width: 400px;
+        min-height: 150px;
+    }
+
+    #card:hover{
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -ms-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        transition: all 1s ease;
+        box-shadow: black 0px 3px 10px;
+    }
+
+    form{
+        width: 100%;
+        padding: 2em;
+    }
+
+    h2{
+        text-align: center;
+        margin: auto;
+        background: grey;
+        color: #dedede;
+        font-weight: lighter;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-left: black 1px;
+        border-right: black 1px;
+    }
+
+    #my-signin2{
+        margin: unset;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        padding-top: 8px;
+    }
+    a {
+        position: absolute;
+        right: 50px;
+        bottom: 60%;
+    }
+</style>
+<script>
+    var username = document.getElementById("username");
+    var email = document.getElementById("email");
+    var password = document.getElementById("password");
+    var message = document.getElementById("message");
+    var form = document.getElementById("form");
+</script>
+</html>
