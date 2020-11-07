@@ -1,3 +1,5 @@
+## Bot Test Environment
+
 ### `npm install`
 
 ^ to download dependencies
@@ -10,12 +12,18 @@
 
 ^ to generate development webhooks
 
+## To Set up Facebook Messenger Test Environment
+
 ### `npx bottender messenger webhook set`
 
 ^ to tell Facebook where your server webhook is located
 
-Must manually set webhooks in https://www.twilio.com/console to set up 
-whatsapp webhook)
+Go to https://www.facebook.com/SFU-Computing-470-Final-Project-117136746856965
+To interact with Facebook Messenger Bot.
+
+## To Set up Whatsapp Test Environment
+
+Must manually set webhooks in https://www.twilio.com/console
 
 To Set up Whatsapp webhook test environment:
 - Go to https://www.twilio.com/
@@ -25,16 +33,11 @@ To Set up Whatsapp webhook test environment:
   Settings 
 - paste webhook URL in \<when a message comes in\> & \<status callback url\>
 
-Go to https://www.facebook.com/SFU-Computing-470-Final-Project-117136746856965
-To interact with Facebook Messenger Bot.
-
 Install whatsapp & send "join most-trace" to 14155238886 and then interact with
 Whatsapp Bot. 
 
 
-
-
-## Configuration
+## Bot Logic Configuration
 
 ### The `bottender.config.js` File
 
