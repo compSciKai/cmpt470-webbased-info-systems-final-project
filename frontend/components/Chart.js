@@ -10,29 +10,34 @@ export class MyLineChart extends React.Component {
   }
 
   async componentDidMount() {
-    const apiUrl = 'http://localhost:1234/scrape'
-    let api_data  = (await axios.get(apiUrl)).data
-    let dates = {}
+    const apiUrl = 'http://localhost:1234/scrape?type=lab'
+    try {
+      let api_data = (await axios.get(apiUrl)).data
+      let dates = {}
 
-    const chartData = []
-    api_data.forEach(x => {
-      if (!dates[x.Date]) {
-        dates[x.Date] = chartData.length
-        let obj = {name: new Date(x.Date)}
-        obj[x.Region] = x.New_Tests
-        chartData.push(obj)
-        console.log(obj)
-      } else {
-        chartData[dates[x.Date]][x.Region] = x.New_Tests
-      }
-    })
+      const chartData = []
+      api_data.forEach(x => {
+        if (!dates[x.Date]) {
+          dates[x.Date] = chartData.length
+          let obj = {name: new Date(x.Date)}
+          obj[x.Region] = x.New_Tests
+          chartData.push(obj)
+        } else {
+          chartData[dates[x.Date]][x.Region] = x.New_Tests
+        }
+      })
 
-    this.setState({chartData: chartData})
+      this.setState({chartData: chartData})
+    } catch (e) {
+      console.log(e)
+    }
+
+
   }
 
   render() {
     return (
-      <Card width="large">
+      <Card width="large" height="420px">
         <CardHeader pad="small" background="accent-1">
           <h4 level="4">Daily Tests Per Day</h4>
         </CardHeader>

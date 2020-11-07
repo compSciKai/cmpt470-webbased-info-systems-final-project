@@ -26,7 +26,7 @@ class DashboardService {
 
     async handleRequest(req, res, next) {
         res.set('Content-Type', 'application/JSON');
-        var data = await this.scrapeService.find();
+        var data = await this.scrapeService.find({});
         
         return res.send(data);
     }
