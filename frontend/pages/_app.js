@@ -1,6 +1,5 @@
 import App from 'next/app'
 import { Grommet, grommet as grommetTheme } from 'grommet'
-import { DefaultLayout } from "../layouts/DefaultLayout"
 import Head from "next/head"
 
 import dynamic from "next/dynamic";

@@ -3,6 +3,7 @@
 const axios = require('axios');
 
 const NEW_TESTS_URL = 'https://services1.arcgis.com/xeMpV7tU1t4KD3Ei/arcgis/rest/services/BC_COVID19_Lab_Information/FeatureServer/0/query'
+const DAILY_RATES_URL = 'https://services1.arcgis.com/xeMpV7tU1t4KD3Ei/ArcGIS/rest/services/COVID19_Cases_by_BC_Health_Authority/FeatureServer/0/query'
 
 class ScrapeService {
 
@@ -35,7 +36,7 @@ class ScrapeService {
 
     // Simple Example Of Covid Data
     async find(params) {
-        if (params.query.type === 'lab') {
+        if (params && params.query.type === 'lab') {
             if (!this.labData.length) {
                 try {
                     let attributes = (await axios.get(NEW_TESTS_URL, {params: this.params})).data['features']
