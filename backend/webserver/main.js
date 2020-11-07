@@ -40,7 +40,7 @@ const db = new DatabaseService(); // Manages access to the database. Many compon
 // Scraping
 const scrapeService = new ScrapeService(); // The code that scrapes from the BC COVID-19 site.
 scrapeService.find(); // Preload
-//app.use('/scrape', scrapeService)
+app.use('/scrape', scrapeService)
 
 // Bot
 const bot = new BotService(); // Handles running the bots and showing users where they can manage bots
