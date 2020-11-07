@@ -14,6 +14,8 @@
 
 ## To Set up Facebook Messenger Test Environment
 
+In another console window (or tab):
+
 ### `npx bottender messenger webhook set`
 
 ^ to tell Facebook where your server webhook is located
@@ -36,6 +38,11 @@ To Set up Whatsapp webhook test environment:
 Install whatsapp & send "join most-trace" to 14155238886 and then interact with
 Whatsapp Bot. 
 
+## Bot Logic & Commands
+
+Located in src/index.js
+
+See: https://bottender.js.org/docs/en/the-basics-actions For examples
 
 ## Bot Logic Configuration
 
