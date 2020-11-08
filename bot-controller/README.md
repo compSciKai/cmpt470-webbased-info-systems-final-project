@@ -4,7 +4,7 @@
 
 ^ to download dependencies
 
-### `npm run -- --console`
+### `npm start -- --console`
 
 ^ to interact with bot through the console (for testing)
 
