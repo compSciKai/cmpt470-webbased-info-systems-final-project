@@ -1,17 +1,29 @@
 import { Distribution, Box, Text, Grid} from "grommet";
-import { WelcomeCard } from "../components/Card";
 import { MyLineChart } from "../components/Chart";
 import { Counts } from "../components/Counts";
 import Head from 'next/head';
+import { CountsDataTable } from "../components/CountsDataTable";
+
+
 
 export default function Home(props) {
   return (
     <Box gap='medium'>
       <Head>
-        <title>Bubbly | HOME</title> 
+        <title>Bubbly | HOME</title>
       </Head>
-      <Counts pad />
-      <MyLineChart gridArea="nav" background="light-5" />
+      <Grid
+          rows={['small', 'small']}
+          columns={['large', 'large']}
+          gap="small"
+          areas={[
+              {name: 'left', start: [0, 1], end: [0, 1]},
+              {name: 'right', start: [1, 1], end: [1, 1]},
+          ]}
+      >
+          <CountsDataTable gridArea="right"/>
+          <MyLineChart gridArea="left"/>
+      </Grid>
     </Box>
       // <Distribution
       //   fill={true}
