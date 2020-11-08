@@ -35,4 +35,6 @@ class ScrapeService {
     }
 }
 
-module.exports = ScrapeService;
+module.exports = {
+    ScrapeService: ScrapeService
+}
