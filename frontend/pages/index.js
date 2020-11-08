@@ -2,7 +2,7 @@ import { Distribution, Box, Text, Grid} from "grommet";
 import { MyLineChart } from "../components/Chart";
 import { Counts, HospitalCount } from "../components/Counts";
 import Head from 'next/head';
-import { CountsDataTable } from "../components/CountsDataTable";
+import { CountsDataTable, TestingLocationDataTable } from "../components/DataTables";
 
 
 
@@ -12,6 +12,7 @@ export default function Home(props) {
       <Head>
         <title>Bubbly | HOME</title>
       </Head>
+      <TestingLocationDataTable/>
       {/* 
           <Box gridArea='specific'pad="small" background="dark-3" /> */}
       <Grid columns={['large', 'medium']}
@@ -26,7 +27,7 @@ export default function Home(props) {
             <HospitalCount gridArea="other"/>
       </Grid>
       <Grid columns={['medium', 'large']}
-            rows={['medium', 'medium']}
+            rows={['0', 'medium']}
             areas={[
               {name: 'table', start:[0,0], end:[1, 0]},
               {name: 'line', start:[1,0], end:[1, 0]}
@@ -36,6 +37,7 @@ export default function Home(props) {
             <CountsDataTable gridArea='table'/>
             <MyLineChart gridArea='line'/>
       </Grid>
+      
     </Box>
       // <Distribution
       //   fill={true}
