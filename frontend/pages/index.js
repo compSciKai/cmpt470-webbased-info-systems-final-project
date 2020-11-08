@@ -12,11 +12,10 @@ export default function Home(props) {
       <Head>
         <title>Bubbly | HOME</title>
       </Head>
-      {/* <CountsDataTable gridArea='table'/>
-          <MyLineChart gridArea='line'/>
+      {/* 
           <Box gridArea='specific'pad="small" background="dark-3" /> */}
       <Grid columns={['large', 'medium']}
-            rows={['small', 'small']}
+            rows={['0', 'small']}
             areas={[
               {name: 'overall', start:[0,0], end:[1, 0]},
               {name: 'other', start:[1,0], end:[1, 0]}
@@ -24,7 +23,18 @@ export default function Home(props) {
             gap="small"
       >
             <Counts gridArea='overall' background="dark-1" />
-            <HospitalCount />
+            <HospitalCount gridArea="other"/>
+      </Grid>
+      <Grid columns={['medium', 'large']}
+            rows={['medium', 'medium']}
+            areas={[
+              {name: 'table', start:[0,0], end:[1, 0]},
+              {name: 'line', start:[1,0], end:[1, 0]}
+            ]}
+            gap="small"
+      >
+            <CountsDataTable gridArea='table'/>
+            <MyLineChart gridArea='line'/>
       </Grid>
     </Box>
       // <Distribution

@@ -37,7 +37,7 @@ export class MyLineChart extends React.Component {
 
   render() {
     return (
-      <Card width="large" height="420px">
+      <Card width="100%" height="420px">
         <CardHeader pad="small" background="accent-1">
           <h4 level="4">Daily Tests Per Day</h4>
         </CardHeader>

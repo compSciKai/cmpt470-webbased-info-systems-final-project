@@ -54,7 +54,7 @@ export function HospitalCount(){
     ICUUp: 1
   }
   return(
-    <Card basis="medium" background="accent-1">
+    <Card height="small" background="accent-1">
       <Box direction="row" pad="small" justify="evenly">
         <Text weight="bold">Active cases</Text>
         <Text>{data.activeCases}</Text>

@@ -61,7 +61,7 @@ export class CountsDataTable extends React.Component {
           <h4 level="4">Daily Tests Per Day</h4>
         </CardHeader>
 
-        <CardBody pad="medium">
+        <CardBody pad="medium" overflow="scroll">
             <DataTable columns={this.columns} data={this.state.tableData} />
         </CardBody>
       </Card>
