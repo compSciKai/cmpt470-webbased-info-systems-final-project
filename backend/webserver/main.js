@@ -1,7 +1,7 @@
 const process = require('process');
 
 const DatabaseService = require('./database.js');
-const ScrapeService = require('./scrape.js');
+const { ScrapeService }= require('./scrape.js');
 const BotService = require('./bot.js');
 
 const feathers = require('@feathersjs/feathers');
