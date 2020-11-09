@@ -1,6 +1,6 @@
 # CMPT 470 Project - Webaccons
 
-## OBJECTIVE
+### Objective
 
 The objective of our project is to create bubble tracing and COVID-19 information chat interface, specifically for BC, Canada. 
 
@@ -26,11 +26,11 @@ For our final iteration, we hope to implement:
 - deployment of chatbots to user group chats
 - bot logic to allow people to trace their contacts, give periodic reports, & message contacts if someone is covid positive
 
-## INSTRUCTIONS
+### Instructions
 
-## TO BE REMOVED
+### TO BE REMOVED
 
-# Running the Frontend
+#### Running the Frontend
 The frontend is coded using [Next.js](https://nextjs.org/). Next.js is a framework built on top of react.  To build the 
 frontend you must have Nodejs and NPM installed. 
 
@@ -41,5 +41,5 @@ npm install
 npm run dev
 ```
 
-# Running the Backend
+#### Running the Backend
 *tbd*
