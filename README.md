@@ -32,4 +32,4 @@ Run our GCP Instance (bubble-bot) & go to our static ip address: http://35.203.1
 
 ### Notes
 
-- our facebook requires an SSL certificate to run on a production website (to be implemented)
+- our facebook bot webhook requires an SSL certificate to run on a production website (to be implemented)
