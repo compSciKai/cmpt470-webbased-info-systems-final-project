@@ -40,4 +40,4 @@ docker-compose up -d
 
 ### Notes
 
-- our facebook requires an SSL certificate to run on a production website (to be implemented)
+- our facebook bot webhook requires an SSL certificate to run on a production website (to be implemented)
