@@ -56,7 +56,7 @@ export class MyLineChart extends React.Component {
     return (
       <Card width="100%" height="420px" background='white' >
         <CardHeader pad="xsmall" background="brand">
-          <h4 level="4">Total Daily COVID-19 tests Over Timey</h4>
+          <h4 level="4">Total Daily COVID-19 Tests Over Time</h4>
         </CardHeader>
         <CardBody pad="none" align="center" justify="center">
           <ResponsiveContainer width='100%' aspect={2.5}>
