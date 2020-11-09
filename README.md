@@ -1,4 +1,4 @@
-# CMPT 470 Project - Webaccons
+# CMPT 470 Project - Web Raccoons
 
 ### Objective
 
