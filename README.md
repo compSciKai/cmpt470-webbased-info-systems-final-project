@@ -28,7 +28,7 @@ For our final iteration, we hope to implement:
 
 ### Instructions
 
-In the Google Cloud Platform console, use the following commands:
+Start Our GCP Instance & use the following commands in the GCP console:
 
 ```bash
 cd cmpt-470-project-web-raccoons
