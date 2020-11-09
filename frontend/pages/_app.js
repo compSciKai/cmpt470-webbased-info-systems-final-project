@@ -1,3 +1,5 @@
+import '../assets/main.css'
+
 import App from 'next/app'
 import { Grommet, grommet as grommetTheme } from 'grommet'
 import Head from "next/head"
@@ -10,6 +12,7 @@ const DefaultLayout = dynamic(() => import("../layouts/DefaultLayout"), {
 export default class MyApp extends App {
     render() {
         const {Component, pageProps} = this.props
+
         return (
             <Grommet theme={grommetTheme} full>
                 <DefaultLayout>

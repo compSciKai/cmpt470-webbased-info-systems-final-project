@@ -47,7 +47,6 @@ export class CountsDataTable extends React.Component {
       try {
           const apiUrl = 'http://localhost:1234/scrape';
           let data = (await axios.get(apiUrl)).data;
-          console.log(data);
           this.setState({tableData: data});
       } catch (e) {
           console.log(e)
@@ -56,12 +55,12 @@ export class CountsDataTable extends React.Component {
 
   render() {
     return (
-      <Card width="large" height="420px">
-        <CardHeader pad="small" background="accent-1">
+      <Card width="large" height="420px" background='white'>
+        <CardHeader pad="xsmall" background="brand">
           <h4 level="4">Daily Tests Per Day</h4>
         </CardHeader>
 
-        <CardBody pad="medium" overflow="scroll">
+        <CardBody pad="x-small" overflow="scroll">
             <DataTable columns={this.columns} data={this.state.tableData} />
         </CardBody>
       </Card>
