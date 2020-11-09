@@ -1,7 +1,7 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Text } from 'recharts';
 import {Card, CardHeader, CardBody, } from 'grommet';
 import React from "react";
-import axios from 'axios'
+import { $axios } from '../plugins/axios';
 
 
 function CustomTick(props) {
@@ -25,9 +25,8 @@ export class MyLineChart extends React.Component {
   }
 
   async componentDidMount() {
-    const apiUrl = 'http://localhost:1234/scrape?type=lab'
     try {
-      let api_data = (await axios.get(apiUrl)).data
+      let api_data = (await $axios.get('/scrape?type=lab')).data
       let dates = {}
 
       const chartData = []

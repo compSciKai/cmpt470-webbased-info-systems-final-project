@@ -1,6 +1,6 @@
 import {Card, CardHeader, CardBody, DataTable, Text, Table, TableHeader, TableBody, TableCell, TableRow, Button} from 'grommet';
 import React from "react";
-import axios from 'axios'
+import { $axios } from '../plugins/axios';
 
 export class CountsDataTable extends React.Component {
   constructor(props) {
@@ -46,7 +46,7 @@ export class CountsDataTable extends React.Component {
   async componentDidMount() {
       try {
           const apiUrl = 'http://localhost:1234/scrape';
-          let data = (await axios.get(apiUrl)).data;
+          let data = (await $axios.get('/scrape')).data;
           this.setState({tableData: data});
       } catch (e) {
           console.log(e)
