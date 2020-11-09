@@ -20,6 +20,8 @@ At the current interation (checkpoint) the following features are implemented:
 
 ![](sms.gif)
 
+- Docker and docker-compose for deployment
+
 For our final iteration, we hope to implement:
 
 - our database (storing loggin & user auth, covid data, user sessions)
@@ -29,6 +31,12 @@ For our final iteration, we hope to implement:
 ### Instructions
 
 Run our GCP Instance (bubble-bot) & go to our static ip address: http://35.203.168.126/
+
+If the application fails to start after a minute, it can be restarted manually by doing the following:
+```bash
+cd /home/bubblebot
+docker-compose up -d
+```
 
 ### Notes
 
