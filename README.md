@@ -14,7 +14,9 @@ At the current interation (checkpoint) the following features are implemented:
 
 ![](bot.gif)
 
-- Chatbot (On Whatsapp/SMS) -- Difficult to test
+- Chatbot (On Whatsapp/SMS) -- Difficult to test (See ./bot-controller/readme.txt for more info)
+
+![](sms.gif)
 
 For our final iteration, we hope to implement:
 
