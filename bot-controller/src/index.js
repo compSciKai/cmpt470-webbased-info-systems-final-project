@@ -1,5 +1,4 @@
 const { router, text } = require('bottender/router');
-const { ScrapeService } = require('../../backend/webserver/scrape');
 const axios = require('axios');
 
 async function SayHi(context) {
@@ -11,17 +10,22 @@ async function SayHello(context) {
 }
 
 async function displayData(context) {
-  let scrape = new ScrapeService;
-  await scrape.find();
-  var text_arr = [];
-  text_arr.push('New & Active Cases in BC:\n');
-  scrape.dailyRates.forEach(element => {
-    text_arr.push(element.HA_Name);
-    text_arr.push('new: ' + element.NewCases + ' active: ' + element.ActiveCases
-                 + '\n');
-  });
-  text_arr.push('last updated:\n' + new Date(scrape.dailyRates[0].Date_Updat).toString());
-  await context.sendText(`${text_arr.join('\n')}`);
+  try {
+    const apiUrl = 'http://localhost:1234/scrape';
+    let scrape = (await axios.get(apiUrl)).data;
+
+    var text_arr = [];
+    text_arr.push('New & Active Cases in BC:\n');
+    scrape.dailyRates.forEach(element => {
+      text_arr.push(element.HA_Name);
+      text_arr.push('new: ' + element.NewCases + ' active: ' + element.ActiveCases
+          + '\n');
+    });
+    text_arr.push('last updated:\n' + new Date(scrape.dailyRates[0].Date_Updat).toString());
+    await context.sendText(`${text_arr.join('\n')}`);
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 module.exports = async function App() {
