@@ -7,9 +7,13 @@ The goal of our project, is for people to access Covid-19 data from chat apps, s
 At the current interation (checkpoint) the following features are implemented:
 
 - A webapp Dashboard & web scraper receiving data from http://www.bccdc.ca/health-info/diseases-conditions/covid-19/data
+
 ![](dash.gif)
+
 - Chatbot (On Facebook Messenger) responding to 'hi' (for testing), and 'data' (to show current & active cases) from https://www.facebook.com/SFU-Computing-470-Final-Project-117136746856965
+
 ![](bot.gif)
+
 - Chatbot (On Whatsapp/SMS) -- Difficult to test
 
 For our final iteration, we hope to implement:
