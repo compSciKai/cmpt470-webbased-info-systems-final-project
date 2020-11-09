@@ -28,9 +28,8 @@ For our final iteration, we hope to implement:
 
 ### Instructions
 
-Start Our GCP Instance & use the following commands in the GCP console:
+Run our GCP Instance (bubble-bot) & go to our static ip address: http://35.203.168.126/
 
-```bash
-cd cmpt-470-project-web-raccoons
-docker-compose up
-```
+### Notes
+
+- our facebook requires an SSL certificate to run on a production website (to be implemented)
