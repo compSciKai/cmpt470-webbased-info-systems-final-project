@@ -1,4 +1,5 @@
-const process = require('process');
+
+const config = require('./config')
 
 const DatabaseService = require('./database.js');
 const { ScrapeService }= require('./scrape.js');
@@ -23,12 +24,12 @@ app.configure(socketio());
 app.use(express.errorHandler());
 
 // Get an open port: https://stackoverflow.com/a/54464386
-const server = app.listen(1234, function() {
+const server = app.listen(config.port, config.host, function() {
     console.log(`Backend is listening on port ${server.address().port}...`);
 });
 
-const addr = "localhost"; // We may need to set this to the server's public-facing IP somehow.
-const port = server.address().port;
+// const addr = "localhost"; // We may need to set this to the server's public-facing IP somehow.
+// const port = server.address().port;
 
 // Database
 const db = new DatabaseService(); // Manages access to the database. Many components will use this.
