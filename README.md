@@ -28,6 +28,11 @@ For our final iteration, we hope to implement:
 
 ### Instructions
 
+```bash
+cd cmpt-470-project-web-raccoons
+docker-compose up
+```
+
 ### TO BE REMOVED
 
 #### Running the Frontend
