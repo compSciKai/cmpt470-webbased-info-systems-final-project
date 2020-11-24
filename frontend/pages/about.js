@@ -18,7 +18,7 @@ export default function About(props){
         </Text>
       </Box>
 
-      <Box align="center" margin="small">
+      <Box alignSelf="center" margin="small">
         <Author name="Kainoa Seaman" email="kseaman@sfu.ca" margin="small"/>
         <Author name="Joergen Reyes" email="joergenr@sfu.ca" margin="small"/>
         <Author name="Daniel Zhao" email="zxzhao@sfu.ca" margin="small"/>
