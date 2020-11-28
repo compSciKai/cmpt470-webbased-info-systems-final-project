@@ -5,11 +5,15 @@ import { User } from 'grommet-icons'
 export function Author(props) {
   // https://material.io/resources/icons/
   return (
-    <Box direction="row" alignSelf="stretch">
-      <Avatar background="#555555">
-        <User color="#ffffff"/>
-      </Avatar>
-      <Box direction="column" margin={`${props.margin}`}>
+    <Box direction="row" alignSelf="stretch" margin={`${props.margin}`}>
+      
+      <Box pad={{horizontal: "small"}}>
+        <Avatar background="#555555">
+          <User color="#ffffff"/>
+        </Avatar>
+      </Box>
+
+      <Box direction="column">
         <Text size="large" alignSelf="start">
           {`${props.name}`}
         </Text>

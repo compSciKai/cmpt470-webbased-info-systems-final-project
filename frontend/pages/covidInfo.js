@@ -32,8 +32,11 @@ export default function CovidInfo(props){
           <br />
           Infected individuals that are not showing symptoms can still spread the virus.
           <br />
-          
         </Text>
+        
+        <Link margin={{vertical: "small"}} href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
+          <a>More info on COVID-19 guidelines and procedures in Canada</a>
+        </Link>
 
         <Text size="large" margin={{vertical: "small"}}>Sources</Text>
         
