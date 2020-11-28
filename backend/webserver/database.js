@@ -46,7 +46,7 @@ class DatabaseServices {
             let dbo = db.db('bbbot');
             dbo.collection(collection).remove(function (err, delOK){
                 if (err) throw err;
-                if (delOK) console.log("table cleared");
+                if (delOK)
                 db.close();
                 callback();
             });
