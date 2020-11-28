@@ -21,7 +21,6 @@ initializePassport(
     id => users.find(user => user.id === id)
 );
 
-
 app.set('views', path.join(__dirname, '..', '..', 'frontend', 'pages'));
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded({extended: false}));
@@ -31,9 +30,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(methodOverride('_method'))
 
 app.get('/login', (req, res) => {
     res.render('login.ejs')
@@ -45,11 +44,12 @@ app.get('/register', (req, res) => {
 
 app.get('/success', ((req, res) => {
     res.render('login_default.ejs', {name: req.user.username})
-}))
+}));
 
 app.post('/register', async (req, res) => {
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
         users.push({
             id: Date.now().toString(),
             username: req.body.name,
@@ -70,7 +70,7 @@ app.post('/login',  passport.authenticate('local', {
     failureFlash: true
 }));
 
-app.listen(3000);
+app.listen(8080);
 
 ////////////////////////////FUNCTION DEFINITIONS/////////////////////////////////
 function initializePassport(passport, getUserByEmail, getUserById) {
