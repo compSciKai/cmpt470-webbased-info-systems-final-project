@@ -13,15 +13,17 @@ async function displayData(context) {
   try {
     const apiUrl = 'http://localhost:1234/scrape';
     let scrape = (await axios.get(apiUrl)).data;
+    console.log(scrape);
 
     var text_arr = [];
     text_arr.push('New & Active Cases in BC:\n');
-    scrape.dailyRates.forEach(element => {
+    scrape.forEach(element => {
+      console.log('the elements', element);
       text_arr.push(element.HA_Name);
       text_arr.push('new: ' + element.NewCases + ' active: ' + element.ActiveCases
           + '\n');
     });
-    text_arr.push('last updated:\n' + new Date(scrape.dailyRates[0].Date_Updat).toString());
+    text_arr.push('last updated:\n' + new Date(scrape[0].Date_Updat).toString());
     await context.sendText(`${text_arr.join('\n')}`);
   } catch (e) {
     console.log(e)
