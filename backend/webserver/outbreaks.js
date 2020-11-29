@@ -2,7 +2,8 @@ const rp = require('request-promise');
 const $ = require('cheerio')
 const islandUrl = 'https://www.islandhealth.ca/learn-about-health/covid-19/outbreaks-and-exposures';
 const fraserUrl = 'https://www.fraserhealth.ca/covid19exposure#.X8NHWGhKiHs';
-const interiorUrl = 'https://news.interiorhealth.ca/news/public-exposures/'
+const interiorUrl = 'https://news.interiorhealth.ca/news/public-exposures/';
+const vchUrl = 'http://www.vch.ca/covid-19/public-exposures';
 
 let islandHeaders = [];
 let islandOutbreaks = [];
@@ -12,6 +13,9 @@ let fraserOutbreaks = [];
 
 let interiorHeaders = [];
 let interiorOutbreaks = [];
+
+let vchUrl = [];
+let vchOutbreaks = [];
 
 rp(islandUrl)
   .then(function(html){
