@@ -13,12 +13,10 @@ async function displayData(context) {
   try {
     const apiUrl = 'http://localhost:1234/scrape';
     let scrape = (await axios.get(apiUrl)).data;
-    console.log(scrape);
 
     var text_arr = [];
     text_arr.push('New & Active Cases in BC:\n');
     scrape.forEach(element => {
-      console.log('the elements', element);
       text_arr.push(element.HA_Name);
       text_arr.push('new: ' + element.NewCases + ' active: ' + element.ActiveCases
           + '\n');
