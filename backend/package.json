@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./webserver/main.js",
-    "login": "nodemon ./webserver/login.js"
+    "login": "nodemon ./webserver/login.js",
+    "dbdev": "nodemon ./webserver/database_test.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,8 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
     "method-override": "^3.0.0",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.10.17",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "public-ip": "^4.0.2"

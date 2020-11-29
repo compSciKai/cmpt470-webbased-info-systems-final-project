@@ -16,7 +16,7 @@
     </div>
     <div id="card">
         <h2>Enter Account Information</h2>
-        <% if (messages.error) {messages.error} %>
+        <h2><% if (messages.error) {messages.error} %></h2>
         <form id = "form" action="/login" method="POST">
             <input type="text" title="email" placeholder="email" name="email" id="username">
             <input type="password" title="password" placeholder="password" name="password" id="password">
