@@ -52,9 +52,21 @@ const bot = new BotService(); // Handles running the bots and showing users wher
 
 (async () => {
     var p = {query: {type: 'lab'}}
+    console.log(p.query.type)
     var result = await scrapeService.find2(p)
     console.log(`RESULT\n\n${result}`)
 
-    db.getTable('cache', {}, function(r) { console.log(`CACHE\n\n${r}`) })
+    //db.saveToTable('cache', [{'queryType': 5, 'timestamp': 1, 'data': 3}], r => {console.log(r)})
+    //db.clearTable('cache', function(r) {})
+    db.getTable('cache', {}, function(r) {
+        console.log(`CACHE\n`)
+        console.log(r)
+
+    })
+    //db.setup()
+
+    //db.getTable('test', {}, function (result){
+    //    console.log(result)
+    //});
 })();
 

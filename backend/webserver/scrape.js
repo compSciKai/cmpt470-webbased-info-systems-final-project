@@ -30,7 +30,7 @@ class ScrapeService {
             returnGeometry: false,
         }
 
-        this.cacheLifetimeInMs = 24*60*60*1000;
+        this.cacheLifetimeInMs = 24*60*60*1000; // About 1 day
         this.db = db;
         this.labData = []
         this.dailyRates = []
@@ -49,33 +49,39 @@ class ScrapeService {
 
         if (params !== null) {
             console.log(params)
-            var q = {"queryType": `${params.query.type}`}
-            this.db.getTable('cache', q, r => this.tableCheck(r, params))
+            var q = {queryType: {$eq: `${params.query.type}`}}
+            await this.db.getTable('cache', q, r => this.tableCheck(r, params))
         }
     }
 
     async tableCheck(result, params) {
-        var q = {"queryType": `${params.query.type}`}
+        console.log(result.length)
+        var q = {queryType: {$eq: `${params.query.type}`}}
+        
+        if (result.length != 0) {
+            var timeDiff = Date.now() - result[0].timestamp
+            console.log(`Queried and got result that was ${timeDiff / 1000 / 60} minutes ago.`)
 
-        // The data is recent. Use it
-        var timeDiff = Date.now() - result.timestamp
-        console.log(`Queried and got cached result that was ${timeDiff / 1000 / 60} minutes ago`)
-        if (result !== [] && timeDiff < this.cacheLifetimeInMs) {
-            console.log(`Returning cached data`)
-            return result.data
+            // The data is recent. Use it
+            if (result.length != 0 && timeDiff < this.cacheLifetimeInMs) {
+                console.log(`Returning cached data`)
+                return result.data
+            }
         }
 
         // The data is not recent or doesn't even exist
         var newData = await this.find(params)
-        console.log(newData)
+        //console.log(newData)
         var ts = Date.now()
-        if (result !== []) {
+        if (result.length != 0) {
             // Data already exists for params.query.type, so send an update
-            this.db.updateTable('cache', q, {"timestamp": ts, "data": newData}, r => console.log(`Updated at time=${ts}`))
+            console.log('Update operation')
+            this.db.updateTable('cache', q, {queryType: `${params.query.type}`, timestamp: ts, data: newData}, r => console.log(`Updated at time=${ts}`))
         }
         else {
             // Data doesn't exist for params.query.type, so send an insert
-            this.db.saveToTable('cache', [{"queryType": `${params.query.type}`, "timestamp": ts, "data": newData}], r => console.log(`Inserted at time=${ts}`))
+            console.log('Insert operation')
+            this.db.saveToTable('cache', [{queryType: `${params.query.type}`, timestamp: ts, data: newData}], r => console.log(`Inserted at time=${ts}`))
         }
         console.log(`Returning new data`)
         return newData

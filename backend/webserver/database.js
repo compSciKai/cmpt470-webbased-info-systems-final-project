@@ -6,9 +6,22 @@ const {MongoClient} = require('mongodb');
 
 class DatabaseServices {
 
-     constructor() {
+    constructor() {
 
     }
+
+    setup() {
+        MongoClient.connect(URI, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db('bbbot');
+            dbo.createCollection('cache', function(err, res) {
+                if (err) throw err;
+                console.log("Collection created!");
+                db.close();
+            });
+        }); 
+    }
+
     //Choose which model we're saving to
     saveToTable(collection, data, callback){
         const client = new MongoClient(URI,{ useUnifiedTopology: true });
