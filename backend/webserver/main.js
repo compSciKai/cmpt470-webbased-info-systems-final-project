@@ -36,8 +36,8 @@ const db = new DatabaseService(); // Manages access to the database. Many compon
 //console.log('DatabaseService is active.')
 
 // Scraping
-const scrapeService = new ScrapeService(); // The code that scrapes from the BC COVID-19 site.
-scrapeService.find(); // Preload
+const scrapeService = new ScrapeService(db); // The code that scrapes from the BC COVID-19 site.
+//scrapeService.find(); // Preload
 app.use('/scrape', scrapeService)
 console.log('ScrapeService is active.')
 
@@ -49,3 +49,6 @@ const bot = new BotService(); // Handles running the bots and showing users wher
 //const login = new LoginService(); // Handles login and showing users the login page
 //app.use('/login', ...)
 //app.use('/account', ...)
+
+
+

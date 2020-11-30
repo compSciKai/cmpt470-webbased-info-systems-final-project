@@ -10,7 +10,7 @@ class ScrapeService {
     // Structure of this class is TBD
     // Connects to the BC COVID-19 data URL and fetches the data.
     // Processing the data into something more usable may be done in this class, someplace else on the server, or the client (undecided)
-    constructor() {
+    constructor(db) {
         this.params = {
             f: 'json',
             where: "Region<>'BC'",
@@ -30,8 +30,43 @@ class ScrapeService {
             returnGeometry: false,
         }
 
+        this.cacheLifetimeInMs = 24*60*60*1000;
+        this.db = db;
         this.labData = []
         this.dailyRates = []
+    }
+
+    async find2(params) {
+        // DB Cache Format: {queryType: <string>, timestamp: <number-unixtime>, data: <json-string>}
+
+        // Query DB's "cache" table for `params.query.type`
+        // If something is returned
+        //     If timestamp is under a day in the past
+        //         Use the retrieved data
+        // Else (nothing returned, or cache is too old)
+        //     Scrape normally
+        //     Write the `params.query.type` + scrape result + current time to "cache" table
+
+        if (params !== null) {
+            this.db.getTable('cache', {"queryType": `${params.query.type}`}, function(result) {
+                console.log(result)
+                
+                // The data is recent. Use it
+                if (result !== [] && (Date.now() - result.timestamp) < this.cacheLifetimeInMs) {
+                    return result.data
+                }
+
+                // The data is not recent.
+                var newData = find(params)
+                if (result !== []) {
+                    // Data exists for params.query.type, so send an update
+                }
+                else {
+                    // Data doesn't exist for params.query.type, so send an insert
+                }
+                return newData;
+            })
+        }
     }
 
     // Simple Example Of Covid Data
