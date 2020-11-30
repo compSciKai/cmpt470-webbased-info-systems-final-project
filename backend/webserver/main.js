@@ -50,5 +50,11 @@ const bot = new BotService(); // Handles running the bots and showing users wher
 //app.use('/login', ...)
 //app.use('/account', ...)
 
+(async () => {
+    var p = {query: {type: 'lab'}}
+    var result = await scrapeService.find2(p)
+    console.log(`RESULT\n\n${result}`)
 
+    db.getTable('cache', {}, function(r) { console.log(`CACHE\n\n${r}`) })
+})();
 
