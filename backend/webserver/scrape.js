@@ -36,46 +36,47 @@ class ScrapeService {
         this.dailyRates = []
     }
 
+    clearCache() {
+        console.log("Clearing cache on DB")
+        this.db.clearTable('cache', function(r) {})
+    }
+
     fetchData(req, res, next) {
         // DB Cache Format: {queryType: <string>, timestamp: <number-unixtime>, data: <json-string>}
 
         // Query DB's "cache" table for `params.query.type`
         // If something is returned
-        //     If timestamp is under a day in the past
+        //     If timestamp is NOT older than cacheLifetimeInMs
         //         Use the retrieved data
         // Else (nothing returned, or cache is too old)
         //     Scrape normally
         //     Write the `params.query.type` + scrape result + current time to "cache" table
 
         if (req.query !== null) {
-            //console.log(req)
-            var q = {queryType: {$eq: `${req.query.type}`}}
-
-            this.db.getTable('cache', q, initialQResult => {
+            this.db.getTable('cache', {queryType: {$eq: `${req.query.type}`}}, initialQResult => {
                 // initialQResult is an array of items that match the query. Should just be 0 or 1 in our case.
-                this.tableCheck(initialQResult, req, dataToReturn => {
+                this.cacheCheck(initialQResult, req, dataToReturn => {
                     res.set('Content-Type', 'application/json')
                     res.send(dataToReturn)
                 })
-                //console.log(ret)
-                //return res.send(ret)
             })
         }
     }
 
-    async tableCheck(matchingResults, params, callback) {
-        var q = {queryType: {$eq: `${params.query.type}`}}
+    // Checks the cache and updates/inserts for a certain params.query.type if required depending on the matchingResults argument.
+    // In either case, cached or new data is sent to the callback.
+    async cacheCheck(matchingResults, params, callback) {
+        var qType = params.query.type;
         
-        // result is an array
+        // matchingResults is an array
         if (matchingResults.length > 0) {
             var timeDiff = Date.now() - matchingResults[0].timestamp
-            console.log(`Queried and got result that was about ${Math.trunc(timeDiff / 1000 / 60)} minutes ago.`)
+            console.log(`${qType} data cache in DB is about ${Math.trunc(timeDiff / 1000 / 60)} minutes old (cache timestamp=${matchingResults[0].timestamp}).`)
 
             if (timeDiff < this.cacheLifetimeInMs) {
                 // The data is recent. Use it
 
-                console.log(`Returning cached data`)
-                //console.log(result[0].data)
+                console.log(`Cached ${qType} data will be returned`)
                 callback(matchingResults[0].data)
                 return
             }
@@ -83,19 +84,16 @@ class ScrapeService {
 
         // The data is not recent or doesn't even exist
         var newData = await this.scrape(params)
-        //console.log(newData)
         var ts = Date.now()
         if (matchingResults.length > 0) {
             // Data already exists for params.query.type, so send an update
-            //console.log('Update operation')
-            this.db.updateTable('cache', q, {queryType: `${params.query.type}`, timestamp: ts, data: newData}, r => console.log(`Updated at time=${ts}`))
+            this.db.updateTable('cache', {queryType: {$eq: `${qType}`}}, {queryType: `${qType}`, timestamp: ts, data: newData}, r => console.log(`Updated new ${qType} data at time=${ts}`))
         }
         else {
             // Data doesn't exist for params.query.type, so send an insert
-            //console.log('Insert operation')
-            this.db.saveToTable('cache', [{queryType: `${params.query.type}`, timestamp: ts, data: newData}], r => console.log(`Inserted at time=${ts}`))
+            this.db.saveToTable('cache', [{queryType: `${qType}`, timestamp: ts, data: newData}], r => console.log(`Inserted new ${qType} data at time=${ts}`))
         }
-        console.log(`Returning new data`)
+        console.log(`New ${qType} data will be returned`)
         callback(newData)
         return
     }

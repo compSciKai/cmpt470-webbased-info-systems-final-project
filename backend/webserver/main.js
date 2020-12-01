@@ -37,7 +37,6 @@ const db = new DatabaseService(); // Manages access to the database. Many compon
 
 // Scraping
 const scrapeService = new ScrapeService(db); // The code that scrapes from the BC COVID-19 site.
-//scrapeService.find(); // Preload
 app.use('/scrape', (req, res, next) => scrapeService.fetchData(req, res, next))
 console.log('ScrapeService is active.')
 
@@ -49,24 +48,3 @@ const bot = new BotService(); // Handles running the bots and showing users wher
 //const login = new LoginService(); // Handles login and showing users the login page
 //app.use('/login', ...)
 //app.use('/account', ...)
-
-
-(async () => {
-    var p = {query: {type: 'lab'}}
-    console.log(p.query.type)
-    var result = await scrapeService.fetchData(p)
-    console.log(`RESULT\n\n${result}`)
-
-    //db.saveToTable('cache', [{'queryType': 5, 'timestamp': 1, 'data': 3}], r => {console.log(r)})
-    //db.clearTable('cache', function(r) {})
-    /*db.getTable('cache', {}, function(r) {
-        console.log(`CACHE\n`)
-        console.log(r)
-
-    })*/
-    //db.setup()
-
-    //db.getTable('test', {}, function (result){
-    //    console.log(result)
-    //});
-})//();
