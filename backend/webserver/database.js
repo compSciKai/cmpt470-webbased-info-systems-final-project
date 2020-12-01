@@ -6,9 +6,22 @@ const {MongoClient} = require('mongodb');
 
 class DatabaseServices {
 
-     constructor() {
+    constructor() {
 
     }
+
+    setup() {
+        MongoClient.connect(URI, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db('bbbot');
+            dbo.createCollection('cache', function(err, res) {
+                if (err) throw err;
+                console.log("Collection created!");
+                db.close();
+            });
+        }); 
+    }
+
     //Choose which model we're saving to
     saveToTable(collection, data, callback){
         const client = new MongoClient(URI,{ useUnifiedTopology: true });
@@ -22,6 +35,21 @@ class DatabaseServices {
             })
             .catch((err) => console.log(err));
     }
+
+    // Updates the items that match search_terms with data
+    updateTable(collection, search_terms, data, callback) {
+        const client = new MongoClient(URI,{ useUnifiedTopology: true });
+        client.connect()
+            .then(r => {
+                client.db('bbbot').collection(collection).replaceOne(search_terms, data)
+                    .then(r => {
+                        client.close().then(r => callback());
+                })
+                .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
+    }
+
     //which model to pull
     getTable(collection, search_terms, callback) {
          let resultArray = [];
