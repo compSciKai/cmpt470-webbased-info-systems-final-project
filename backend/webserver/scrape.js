@@ -30,13 +30,13 @@ class ScrapeService {
             returnGeometry: false,
         }
 
-        this.cacheLifetimeInMs = 24*60*60*1000; // About 1 day
+        this.cacheLifetimeInMs = 12*60*60*1000; // About 12 hours
         this.db = db;
         this.labData = []
         this.dailyRates = []
     }
 
-    async find2(params) {
+    fetchData(req, res, next) {
         // DB Cache Format: {queryType: <string>, timestamp: <number-unixtime>, data: <json-string>}
 
         // Query DB's "cache" table for `params.query.type`
@@ -47,48 +47,61 @@ class ScrapeService {
         //     Scrape normally
         //     Write the `params.query.type` + scrape result + current time to "cache" table
 
-        if (params !== null) {
-            console.log(params)
-            var q = {queryType: {$eq: `${params.query.type}`}}
-            await this.db.getTable('cache', q, r => this.tableCheck(r, params))
+        if (req.query !== null) {
+            //console.log(req)
+            var q = {queryType: {$eq: `${req.query.type}`}}
+
+            this.db.getTable('cache', q, initialQResult => {
+                // initialQResult is an array of items that match the query. Should just be 0 or 1 in our case.
+                this.tableCheck(initialQResult, req, dataToReturn => {
+                    res.set('Content-Type', 'application/json')
+                    res.send(dataToReturn)
+                })
+                //console.log(ret)
+                //return res.send(ret)
+            })
         }
     }
 
-    async tableCheck(result, params) {
-        console.log(result.length)
+    async tableCheck(matchingResults, params, callback) {
         var q = {queryType: {$eq: `${params.query.type}`}}
         
-        if (result.length != 0) {
-            var timeDiff = Date.now() - result[0].timestamp
-            console.log(`Queried and got result that was ${timeDiff / 1000 / 60} minutes ago.`)
+        // result is an array
+        if (matchingResults.length > 0) {
+            var timeDiff = Date.now() - matchingResults[0].timestamp
+            console.log(`Queried and got result that was about ${Math.trunc(timeDiff / 1000 / 60)} minutes ago.`)
 
-            // The data is recent. Use it
-            if (result.length != 0 && timeDiff < this.cacheLifetimeInMs) {
+            if (timeDiff < this.cacheLifetimeInMs) {
+                // The data is recent. Use it
+
                 console.log(`Returning cached data`)
-                return result.data
+                //console.log(result[0].data)
+                callback(matchingResults[0].data)
+                return
             }
         }
 
         // The data is not recent or doesn't even exist
-        var newData = await this.find(params)
+        var newData = await this.scrape(params)
         //console.log(newData)
         var ts = Date.now()
-        if (result.length != 0) {
+        if (matchingResults.length > 0) {
             // Data already exists for params.query.type, so send an update
-            console.log('Update operation')
+            //console.log('Update operation')
             this.db.updateTable('cache', q, {queryType: `${params.query.type}`, timestamp: ts, data: newData}, r => console.log(`Updated at time=${ts}`))
         }
         else {
             // Data doesn't exist for params.query.type, so send an insert
-            console.log('Insert operation')
+            //console.log('Insert operation')
             this.db.saveToTable('cache', [{queryType: `${params.query.type}`, timestamp: ts, data: newData}], r => console.log(`Inserted at time=${ts}`))
         }
         console.log(`Returning new data`)
-        return newData
+        callback(newData)
+        return
     }
 
     // Simple Example Of Covid Data
-    async find(params) {
+    async scrape(params) {
         if (params && params.query.type === 'lab') {
             if (!this.labData.length) {
                 try {
@@ -100,7 +113,7 @@ class ScrapeService {
             }
 
             return this.labData
-        } else {
+        } else if (params && params.query.type == 'dailyrates'){
             if (!this.dailyRates.length) {
                 try {
                     let attributes = (await axios.get(DAILY_RATES_URL, {params: this.dailyRatesParams})).data['features']
@@ -112,6 +125,8 @@ class ScrapeService {
             }
 
             return this.dailyRates
+        } else {
+            return "Unable to query unspecified data"
         }
     }
 }
