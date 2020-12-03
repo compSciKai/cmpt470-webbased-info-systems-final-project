@@ -2,8 +2,10 @@
 const config = require('./config')
 
 const DatabaseService = require('./database.js');
-const { ScrapeService }= require('./scrape.js');
+const { ScrapeService } = require('./scrape.js');
+const { OutbreakService } = require('./outbreaks.js');
 const BotService = require('./bot.js');
+
 
 const feathers = require('@feathersjs/feathers');
 const express = require('@feathersjs/express');
@@ -41,6 +43,9 @@ scrapeService.find(); // Preload
 app.use('/scrape', scrapeService)
 console.log('ScrapeService is active.')
 
+const outbreakService = new OutbreakService();
+app.use('/outbreaks', outbreakService);
+
 // Bot
 const bot = new BotService(); // Handles running the bots and showing users where they can manage bots
 //app.use('/bot', ...)
@@ -49,3 +54,4 @@ const bot = new BotService(); // Handles running the bots and showing users wher
 //const login = new LoginService(); // Handles login and showing users the login page
 //app.use('/login', ...)
 //app.use('/account', ...)
+
