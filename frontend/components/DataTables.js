@@ -45,7 +45,6 @@ export class CountsDataTable extends React.Component {
 
   async componentDidMount() {
       try {
-          const apiUrl = 'http://localhost:1234/scrape';
           let data = (await $axios.get('/scrape?type=dailyrates')).data;
           this.setState({tableData: data});
       } catch (e) {

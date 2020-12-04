@@ -95,7 +95,6 @@ class ScrapeService {
         }
         console.log(`New ${qType} data will be returned`)
         callback(newData)
-        return
     }
 
     // Simple Example Of Covid Data
@@ -111,7 +110,7 @@ class ScrapeService {
             }
 
             return this.labData
-        } else if (params && params.query.type == 'dailyrates'){
+        } else if (params && params.query.type ==='dailyrates'){
             if (!this.dailyRates.length) {
                 try {
                     let attributes = (await axios.get(DAILY_RATES_URL, {params: this.dailyRatesParams})).data['features']
