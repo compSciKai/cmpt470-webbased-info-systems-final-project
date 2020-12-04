@@ -82,11 +82,22 @@ class OutbreakService {
     let cells = $('table:nth-child(12) > tbody > tr > td', html);
     fillOutBreaks(columns.length, columns.length, cells, islandOutbreaks, islandHeaders);
     islandOutbreaks.forEach((element, index) => {
-      let temp = element.location.split('*');
-      element.location=temp[0].trim();
-      if(temp.length > 1){
-        element.address = temp[1].trim();
+      let temp = ''
+      if(!element.location.includes('*')){
+        let t = 'home'
+        let a = element.location
+        temp = a.slice(a.indexOf(t) + t.length).trim();   
+        element.address = temp;
+        element.location = a.substr(0, a.indexOf('home')).trim();
+      } else {
+        temp = element.location.split('*');
+        element.location=temp[0].trim();
+        if(temp.length > 1){
+          element.address = temp[1].trim();
+        }
       }
+      
+      
     })
   }
 
