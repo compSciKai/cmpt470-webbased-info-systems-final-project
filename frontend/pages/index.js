@@ -13,9 +13,6 @@ export default function Home(props) {
       <Head>
         <title>Bubbly | HOME</title>
       </Head>
-      {/*<TestingLocationDataTable/>*/}
-      {/* 
-          <Box gridArea='specific'pad="small" background="dark-3" /> */}
       <Grid fill="true" margin={{"vertical": "xxsmall"}}>
         <Counts gridArea='overall' background="dark-1" />
       </Grid>
