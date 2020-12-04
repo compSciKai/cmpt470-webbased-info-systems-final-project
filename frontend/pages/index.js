@@ -15,7 +15,7 @@ export default function Home(props) {
       {/*<TestingLocationDataTable/>*/}
       {/* 
           <Box gridArea='specific'pad="small" background="dark-3" /> */}
-      <Grid columns={['large', 'medium']}
+      <Grid columns={['x-large']}
             rows={['0', 'small']}
             areas={[
               {name: 'overall', start:[0,0], end:[1, 0]},
@@ -24,7 +24,6 @@ export default function Home(props) {
             gap="small"
       >
             <Counts gridArea='overall' background="dark-1" />
-            <HospitalCount gridArea="other"/>
       </Grid>
       <Grid columns={['medium', 'large']}
             rows={['0', 'medium']}

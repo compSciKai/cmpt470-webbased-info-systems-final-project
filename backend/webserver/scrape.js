@@ -34,6 +34,7 @@ class ScrapeService {
         this.db = db;
         this.labData = []
         this.dailyRates = []
+        this.totals = []
     }
 
     clearCache() {
@@ -122,6 +123,45 @@ class ScrapeService {
             }
 
             return this.dailyRates
+        } else if (params && params.query.type === 'totals') {
+            try {
+                let attributes = (await axios.get(DAILY_RATES_URL, {params: this.dailyRatesParams})).data['features']
+                let totals = {
+                    totalCases: 0,
+                    newCases: 0,
+                    totalDeaths: 0,
+                    currICU: 0,
+                    currHosp: 0,
+                    activeCases: 0,
+                    recovered: 0
+                }
+
+                attributes.forEach(x => {
+                    totals.totalCases += x.attributes.Cases
+                    totals.newCases += x.attributes.NewCases
+                    totals.totalDeaths += x.attributes.Deaths
+                    totals.currHosp += x.attributes.CurrentlyHosp
+                    totals.currICU += x.attributes.CurrentlyICU
+                    totals.recovered += x.attributes.Recovered
+                    totals.activeCases += x.attributes.ActiveCases
+                })
+
+                this.totals = [
+                  {name: 'Total Cases', value: totals.totalCases},
+                  {name: 'New Cases', value: totals.newCases},
+                  {name: 'Total Deaths', value: totals.totalDeaths},
+                  {name: 'Hospitalized', value: totals.currHosp},
+                  {name: 'In ICU', value: totals.currICU},
+                  {name: 'Active Cases', value: totals.activeCases},
+                  {name: 'Total Recovered', value: totals.recovered},
+                ]
+
+            } catch (e) {
+                console.log(e)
+                return "Unable to query rates data"
+            }
+
+            return this.totals
         } else {
             return "Unable to query unspecified data"
         }

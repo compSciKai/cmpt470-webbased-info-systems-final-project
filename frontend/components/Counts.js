@@ -1,46 +1,46 @@
 import {Card, Box, CardBody, CardHeader, Text, CardFooter, } from "grommet";
+import React from "react";
+import { $axios } from '../plugins/axios';
 import CountUp from 'react-countup';
 
-function CountsCard({total_count, new_count, title, color='brand'}) {
+
+
+function CountsCard({value, name, color='brand'}) {
   return (
-    <Card height="small" basis="medium" background={color}>
+    <Card height="small" basis="large" background={color}>
       <CardHeader size="medium" pad="small" >
-        <Text weight="bold"> {title}</Text></CardHeader>
+        <Text weight="bold"> {name}</Text></CardHeader>
       <CardBody pad="small">
-        <CountUp end={total_count} suffix=" total" />
-        <CountUp end={new_count} prefix="+ " />
+        <CountUp end={value} />
       </CardBody>
-      <CardFooter justify="center" background={'status-warning'}>
-        This is Mock Data
-      </CardFooter>
     </Card>
   )
 }
 
-export function Counts() {
-  const data = [
-    {
-      total_count: 1007,
-      new_count: 127,
-      title: 'Total Cases',
-    },
-    {
-      total_count: 10023,
-      new_count: 121,
-      title: 'Recovered',
-    },
-    {
-      total_count: 69,
-      new_count: 2,
-      title: 'Deaths'
-    }
-  ]
 
-  return (
-    <Box direction="row" gap="small">
-      { data.map(counts =><CountsCard {...counts} />) }
-    </Box>
-  )
+export class Counts extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      totals: []
+    }
+  }
+
+  async componentDidMount() {
+    const data = (await $axios.get('/scrape?type=totals')).data
+    console.log(data)
+    this.setState({totals: data})
+  }
+
+  // const api_data = (await $axios.get('/scrape?type=totals')).data
+
+  render() {
+    return (
+      <Box direction="row" gap="small">
+        {this.state.totals.map(counts => <CountsCard {...counts} />)}
+      </Box>
+    )
+  }
 }
 
 export function HospitalCount(){
