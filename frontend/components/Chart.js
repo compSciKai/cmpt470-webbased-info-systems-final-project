@@ -1,5 +1,5 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Text } from 'recharts';
-import {Card, CardHeader, CardBody, } from 'grommet';
+import { Card, CardHeader, CardBody } from 'grommet';
 import React from "react";
 import { $axios } from '../plugins/axios';
 

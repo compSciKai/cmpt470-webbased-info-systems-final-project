@@ -29,7 +29,7 @@ let fraserOutbreaks = [];
 let interiorHeaders = [];
 let interiorOutbreaks = [];
 
-let vchHeaders = ['location', 'address', 'potential_exposure_date', 'potential_exposure_time'];
+let vchHeaders = ['location', 'address', 'date', 'time'];
 let vchOutbreaks = [];
 
 let northernHeaders = [];
@@ -37,7 +37,19 @@ let northernOutbreaks = [];
 
 class OutbreakService {
   constructor() {
-    this.getInfo().then(() => {console.log("OutbreakService is active")});
+    this.getInfo().then(() => {
+      console.log("OutbreakService is active");
+      console.log('----Island');
+      console.log(islandOutbreaks);
+      console.log('----Fraser');
+      console.log(fraserOutbreaks);
+      console.log('----Interior');
+      console.log(interiorOutbreaks);
+      console.log('----VCH');
+      console.log(vchOutbreaks);
+      console.log('----Northern');
+      console.log(northernOutbreaks);
+    });
   }
 
   async find(params) {
@@ -66,9 +78,16 @@ class OutbreakService {
     let columns = $('table:nth-child(12) > tbody > tr:nth-child(1)', html).children();
     columns.each((index, element) => {
       islandHeaders.push($(element).text().toLowerCase().trim().replace(/\s+/g, '_'));
-    })
+    });
     let cells = $('table:nth-child(12) > tbody > tr > td', html);
     fillOutBreaks(columns.length, columns.length, cells, islandOutbreaks, islandHeaders);
+    islandOutbreaks.forEach((element, index) => {
+      let temp = element.location.split('*');
+      element.location=temp[0];
+      if(temp.length > 1){
+        element.address = temp[1];
+      }
+    })
   }
 
   async scrapeInterior(){
@@ -98,7 +117,7 @@ class OutbreakService {
         previous = str;
       }
     })
-    for(let i=0; i<(temp.length/4); i++){
+    for(let i=0; i<temp.length; i+=4){
       let j = i;
       let outbreak = {}; 
       for(const header of vchHeaders){
@@ -115,7 +134,14 @@ class OutbreakService {
     div > div.clearfix.text-formatted.field.field--name-field-body.field--type-text-long.field--label-hidden.field__item
       > table > thead > tr > th`, html);
     columns.each((index, element) => {
-      northernHeaders.push($(element).text().toLowerCase().trim().replace(/\s+/g, '_').replace('/','_').replace(':','').replace('(s)',''));
+      let str = $(element).text().toLowerCase().trim().replace(/\s+/g, '_').replace('/','_').replace(':','').replace('(s)','');
+      if(str.includes('date')){
+        northernHeaders.push('date');
+      } else if(str.includes('time')){
+        northernHeaders.push('time');
+      } else {
+       northernHeaders.push(str);
+      }
     });
     let cells = $(`#block-northern-health-mainpagecontent--2 > article > div > div > div:nth-child(1) > div > div > div:nth-child(2) >
     div > div.clearfix.text-formatted.field.field--name-field-body.field--type-text-long.field--label-hidden.field__item
@@ -134,27 +160,6 @@ class OutbreakService {
       console.log(e);
     }
   }
-
-    // rp(northernUrl)
-    // .then(function(html) {
-    //   let columns = $(`#block-northern-health-mainpagecontent--2 > article > div > div > div:nth-child(1) > div > div > div:nth-child(2) >
-    //   div > div.clearfix.text-formatted.field.field--name-field-body.field--type-text-long.field--label-hidden.field__item
-    //     > table > thead > tr > th`, html);
-    //   columns.each((index, element) => {
-    //     northernHeaders.push($(element).text().toLowerCase().trim().replace(/\s+/g, '_').replace('/','_').replace(':','').replace('(s)',''));
-    //   });
-    //   let noOfColumns = columns.length;
-    //   let cells = $(`#block-northern-health-mainpagecontent--2 > article > div > div > div:nth-child(1) > div > div > div:nth-child(2) >
-    //   div > div.clearfix.text-formatted.field.field--name-field-body.field--type-text-long.field--label-hidden.field__item
-    //   > table > tbody > tr > td`, html);
-    //   fillOutBreaks(0, noOfColumns, cells, northernOutbreaks, northernHeaders);
-    //   console.log('------------------Northern------------------');
-    //   console.log(northernOutbreaks);
-    // })
-    // .catch(function(err){
-    //   //handle error
-    //   if (err) throw err;
-    // });
 }
 
 

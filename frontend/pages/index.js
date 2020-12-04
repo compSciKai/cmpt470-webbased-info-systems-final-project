@@ -1,5 +1,6 @@
 import { Box, Text, Grid} from "grommet";
 import { MyLineChart } from "../components/Chart";
+import { MyOutbreakCards } from "../components/Outbreak";
 import { Counts, HospitalCount } from "../components/Counts";
 import Head from 'next/head';
 import { CountsDataTable, TestingLocationDataTable } from "../components/DataTables";
@@ -8,7 +9,7 @@ import { CountsDataTable, TestingLocationDataTable } from "../components/DataTab
 
 export default function Home(props) {
   return (
-    <Box gap='medium' width="90%" align="center">
+    <Box gap='medium' align="center">
       <Head>
         <title>Bubbly | HOME</title>
       </Head>
@@ -30,14 +31,14 @@ export default function Home(props) {
             rows={['0', 'medium']}
             areas={[
               {name: 'table', start:[0,0], end:[1, 0]},
-              {name: 'line', start:[1,0], end:[1, 0]}
+              {name: 'line', start:[1,0], end:[1, 0]},
             ]}
             gap="small"
       >
             <CountsDataTable gridArea='table'/>
             <MyLineChart gridArea='line'/>
       </Grid>
-      
+      <MyOutbreakCards/>
     </Box>
   )
 }
