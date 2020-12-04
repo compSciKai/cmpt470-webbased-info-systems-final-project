@@ -39,27 +39,27 @@ class OutbreakService {
   constructor() {
     this.getInfo().then(() => {
       console.log("OutbreakService is active");
-      console.log('----Island');
-      console.log(islandOutbreaks);
-      console.log('----Fraser');
-      console.log(fraserOutbreaks);
-      console.log('----Interior');
-      console.log(interiorOutbreaks);
-      console.log('----VCH');
-      console.log(vchOutbreaks);
-      console.log('----Northern');
-      console.log(northernOutbreaks);
+      // console.log('----Island');
+      // console.log(islandOutbreaks);
+      // console.log('----Fraser');
+      // console.log(fraserOutbreaks);
+      // console.log('----Interior');
+      // console.log(interiorOutbreaks);
+      // console.log('----VCH');
+      // console.log(vchOutbreaks);
+      // console.log('----Northern');
+      // console.log(northernOutbreaks);
     });
   }
 
   async find(params) {
     //I moved getInfo to the constructor because whenever I refresh the request, it's going to unnecessarily call the scrapers again
     return [
-      { name: "Fraser Health", outbreaks: fraserOutbreaks },
-      { name: "VCH Health", outbreaks: vchOutbreaks },
-      { name: "Island Health", outbreaks: islandOutbreaks },
-      { name: "Interior Health", outbreaks: interiorOutbreaks},
-      { name: "Northern Health", outbreaks: northernOutbreaks}
+      { name: "Fraser Health", outbreaks: fraserOutbreaks, url: fraserUrl },
+      { name: "VCH Health", outbreaks: vchOutbreaks, url: vchUrl },
+      { name: "Island Health", outbreaks: islandOutbreaks, url: islandUrl },
+      { name: "Interior Health", outbreaks: interiorOutbreaks, url: interiorUrl },
+      { name: "Northern Health", outbreaks: northernOutbreaks, url: northernUrl }
     ]
   }
   
