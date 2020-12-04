@@ -1,4 +1,4 @@
-import {Card, Box, CardBody, CardHeader, Text, CardFooter, } from "grommet";
+import {Card, Box, CardBody, CardHeader, Text, CardFooter } from "grommet";
 import React from "react";
 import { $axios } from '../plugins/axios';
 import CountUp from 'react-countup';
@@ -6,13 +6,20 @@ import CountUp from 'react-countup';
 
 
 function CountsCard({value, name, color='brand'}) {
+  let text = '';
+  if(name=="New Cases"){
+    text = '+'
+  }
   return (
     <Card height="small" basis="large" background={color}>
-      <CardHeader size="medium" pad="small" >
-        <Text weight="bold"> {name}</Text></CardHeader>
-      <CardBody pad="small">
-        <CountUp end={value} />
+      <CardBody pad="small" justify="center" direction="row">
+        <Box justify="center">
+          
+        <Text size="40px" weight="bold">{text}<CountUp end={value} /></Text>
+        </Box>
       </CardBody>
+      <CardHeader size="medium" pad="small" justify="center">
+        <Text> {name}</Text></CardHeader>
     </Card>
   )
 }
@@ -57,35 +64,35 @@ export function HospitalCount(){
     ICUUp: 1
   }
   return(
-      <Card height="small" background="brand">
-        <CardBody>
-          <Box direction="row" pad="small" justify="evenly">
-            <Text weight="bold">Active cases</Text>
-            <Text>{data.activeCases}</Text>
-            {data.activeUp ?
-                <CountUp end={data.changeInActive} prefix="+ "/> :
-                <CountUp end={data.changeInActive} prefix="- "/>}
-          </Box>
-          <Box direction="row" pad="small" justify="evenly">
-            <Text weight="bold">Currently hospitalized</Text>
-            <Text>{data.currentlyHospitalized}</Text>
-            {data.hospitalizedUp ?
-                <CountUp end={data.changeInHospitalized} prefix="+ "/> :
-                <CountUp end={data.changeInHospitalized} prefix="- "/>}
-          </Box>
-          <Box direction="row" pad="small" justify="evenly">
-            <Text weight="bold">Currently in ICU</Text>
-            <Text>{data.currentlyInICU}</Text>
-            {data.ICUUp ?
-                <CountUp end={data.changeInICU} prefix="+ "/> :
-                <CountUp end={data.changeInICU} prefix="- "/>}
-          </Box>
-        </CardBody>
+    <Card height="small" background="brand">
+      <CardBody>
+        <Box direction="row" pad="small" justify="evenly">
+          <Text weight="bold">Active cases</Text>
+          <Text>{data.activeCases}</Text>
+          {data.activeUp ?
+              <CountUp end={data.changeInActive} prefix="+ "/> :
+              <CountUp end={data.changeInActive} prefix="- "/>}
+        </Box>
+        <Box direction="row" pad="small" justify="evenly">
+          <Text weight="bold">Currently hospitalized</Text>
+          <Text>{data.currentlyHospitalized}</Text>
+          {data.hospitalizedUp ?
+              <CountUp end={data.changeInHospitalized} prefix="+ "/> :
+              <CountUp end={data.changeInHospitalized} prefix="- "/>}
+        </Box>
+        <Box direction="row" pad="small" justify="evenly">
+          <Text weight="bold">Currently in ICU</Text>
+          <Text>{data.currentlyInICU}</Text>
+          {data.ICUUp ?
+              <CountUp end={data.changeInICU} prefix="+ "/> :
+              <CountUp end={data.changeInICU} prefix="- "/>}
+        </Box>
+      </CardBody>
 
-        <CardFooter justify="center" background={'status-warning'}>
-          This is Mock Data
-        </CardFooter>
-      </Card>
+      <CardFooter justify="center" background={'status-warning'}>
+        This is Mock Data
+      </CardFooter>
+    </Card>
   )
 }
 

@@ -2,6 +2,7 @@
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
+    z-index:-1
 }
 ::-webkit-scrollbar-track {
     background: white;
@@ -14,7 +15,6 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #9492dc;
 }
-
 
 #bubbles {
     background-image: url("./bubbles.svg");
@@ -29,4 +29,6 @@
 #footer {
     position: absolute;
     bottom: 0;
+    /* background-color: #52fab7;
+    width:100%; */
 }

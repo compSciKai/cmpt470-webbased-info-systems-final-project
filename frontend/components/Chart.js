@@ -70,7 +70,7 @@ export class MyLineChart extends React.Component {
 
   render() {
     return (
-      <Card width="100%" height="420px" background='white' >
+      <Card height="420px" background='white'>
         <CardHeader pad="xsmall" background="brand">
           <h4 level="4">{ this.state.title }</h4>
           <Menu

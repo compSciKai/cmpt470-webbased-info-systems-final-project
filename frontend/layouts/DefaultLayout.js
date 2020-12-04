@@ -36,9 +36,6 @@ export default function DefaultLayout(props) {
             <Anchor href="/bots" size="xlarge" margin={{vertical:"8px"}} alignSelf="end">BUBBLE BOTS</Anchor>
             <Anchor href="/covidInfo" size="xlarge" margin={{vertical:"8px"}} alignSelf="end">COVID INFO</Anchor>
             <Anchor href="/about" size="xlarge" margin={{vertical:"8px"}} alignSelf="end">ABOUT US</Anchor>
-            <Box alignSelf="end" margin={{vertical:"8px"}}>
-              <User color="brand" size="medium"/>
-            </Box>
           </Box>
         </Collapsible>
       </Box>
