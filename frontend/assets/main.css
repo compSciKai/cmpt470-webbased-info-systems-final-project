@@ -2,7 +2,6 @@
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
-    z-index:-1
 }
 ::-webkit-scrollbar-track {
     background: white;
@@ -29,6 +28,4 @@
 #footer {
     position: absolute;
     bottom: 0;
-    /* background-color: #52fab7;
-    width:100%; */
 }
