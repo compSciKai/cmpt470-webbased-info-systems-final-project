@@ -4,11 +4,11 @@ import Link from "next/link"
 
 export default function CovidInfo(props){
   return (
-    <Box>
+    <Box background="white" pad="medium" overflow="scroll" margin="large" width="80%">
       <Head>
         <title>Bubbly | COVID-19 INFO</title> 
       </Head>
-      <Box alignSelf="center">
+      <Box alignSelf="center" width="100%">
         <Text size="xlarge" margin={{vertical: "small"}}>COVID-19 Info</Text>
         
         <Text size="large" margin={{vertical: "small"}}>Common Symptoms</Text>
