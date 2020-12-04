@@ -30,7 +30,7 @@ class ScrapeService {
             returnGeometry: false,
         }
 
-        this.cacheLifetimeInMs = 12*60*60*1000; // About 12 hours
+        this.cacheLifetimeInMs = 60*60*1000; // About 1 hour
         this.db = db;
         this.labData = []
         this.dailyRates = []

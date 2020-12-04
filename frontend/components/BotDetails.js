@@ -16,7 +16,7 @@ export function BotDetails(props){
           <Image fit="cover" src="//v2.grommet.io/assets/IMG_4245.jpg" />
           <Image fit="cover" src="//v2.grommet.io/assets/IMG_4210.jpg" />
         </Carousel>
-        <Button primary margin="10px" label={`Get ${props.botName} bot today!`} href="m.me/117136746856965"></Button> 
+        <Button primary margin="10px" label={`Get ${props.botName} bot today!`} href="https://m.me/117136746856965"></Button> 
       </Box>
       <Box gridArea="instruction">Hello!</Box>
     </Grid>
