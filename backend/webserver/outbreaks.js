@@ -83,9 +83,9 @@ class OutbreakService {
     fillOutBreaks(columns.length, columns.length, cells, islandOutbreaks, islandHeaders);
     islandOutbreaks.forEach((element, index) => {
       let temp = element.location.split('*');
-      element.location=temp[0];
+      element.location=temp[0].trim();
       if(temp.length > 1){
-        element.address = temp[1];
+        element.address = temp[1].trim();
       }
     })
   }

@@ -51,14 +51,13 @@ export class MyOutbreakCards extends React.Component {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {this.state.outbreaks[i].map((o) => {
-                      console.log(o.location);
+                    {this.state.outbreaks[i].map((o) =>
                       <TableRow>
                         <TableCell scope="row"><strong>{o.location}</strong></TableCell>
-                        <TableCell>Outbreak</TableCell>
-                        <TableCell>Hello</TableCell>
+                        <TableCell>{o.address}</TableCell>
+                        <TableCell>{o.date}</TableCell>
                       </TableRow>
-                    })}
+                    )}
                   </TableBody>
                 </Table>
               </Tab>
