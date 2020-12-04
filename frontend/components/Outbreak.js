@@ -39,7 +39,7 @@ export class MyOutbreakCards extends React.Component {
             <Tabs margin="small">
             {this.state.health.map((ho, i) => 
               <Tab title={ho}>
-                <Box margin="small" height="380px">
+                <Box margin="small" height="30vh" width="80vw"overflow="auto">
                   <Table alignSelf="center">
                     <TableHeader>
                       <TableRow>
