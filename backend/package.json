@@ -17,6 +17,7 @@
     "@feathersjs/socketio": "^4.5.9",
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
+    "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
@@ -27,7 +28,10 @@
     "mongoose": "^5.11.3",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "public-ip": "^4.0.2"
+    "public-ip": "^4.0.2",
+    "puppeteer": "^5.5.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
