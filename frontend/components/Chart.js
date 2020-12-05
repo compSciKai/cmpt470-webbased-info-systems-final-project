@@ -70,7 +70,7 @@ export class MyLineChart extends React.Component {
 
   render() {
     return (
-      <Card width="100%" height="420px" background='white' >
+      <Card height="420px" background='white'>
         <CardHeader pad="xsmall" background="brand">
           <h4 level="4">{ this.state.title }</h4>
           <Menu
@@ -81,7 +81,7 @@ export class MyLineChart extends React.Component {
           />
         </CardHeader>
         <CardBody pad="none" align="center" justify="center">
-          <ResponsiveContainer width='100%' aspect={2.5}>
+          <ResponsiveContainer width='95%' aspect={2.5}>
             <LineChart data={this.state.chartData}>
               <Line type="monotone" dataKey="Fraser" stroke="#FD6FFF" dot={false}/>
               <Line type="monotone" dataKey="Vancouver Coastal" stroke="#00873D" dot={false}/>

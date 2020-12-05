@@ -3,7 +3,7 @@ import Head from 'next/head'
 import {Author} from '../components/Author'
 export default function About(props){
   return (
-    <Box>
+    <Box background="white" width="80%" margin="auto">
       <Head>
         <title>Bubbly | ABOUT</title> 
       </Head>

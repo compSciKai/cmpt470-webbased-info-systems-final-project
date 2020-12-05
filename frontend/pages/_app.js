@@ -27,7 +27,7 @@ export default class MyApp extends App {
               <DefaultLayout>
                 <Component {...pageProps} />
               </DefaultLayout>
-              <Footer pad="small" id={'footer'}>
+              <Footer pad="small" id={'footer'} width="100%" background={{"color":"accent-1"}}>
                 <Text>Made with ❤ by Adam, Alex, Daniel, Joergen, and Kainoa</Text>
               </Footer>
             </Grommet>

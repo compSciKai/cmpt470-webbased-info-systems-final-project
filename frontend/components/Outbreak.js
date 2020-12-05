@@ -31,7 +31,7 @@ export class MyOutbreakCards extends React.Component {
 
   render(){
     return (
-      <Card width="100%" flex="grow" margin={{"vertical": "large"}}>
+      <Card width="100%" flex="grow" margin={{"vertical": "medium", "bottom": "large"}}>
          <CardHeader pad="xsmall" background="brand">
           <h4 level="4">Current Outbreaks by Health Authority</h4>
         </CardHeader>
@@ -39,7 +39,7 @@ export class MyOutbreakCards extends React.Component {
             <Tabs margin="small">
             {this.state.health.map((ho, i) => 
               <Tab title={ho}>
-                <Box margin="small" height="30vh" width="80vw"overflow="auto">
+                <Box margin={{"vertical":"small"}} height="30vh" width="60vw" overflow="auto">
                   <Table alignSelf="center">
                     <TableHeader>
                       <TableRow>
@@ -64,8 +64,8 @@ export class MyOutbreakCards extends React.Component {
                       )}
                     </TableBody>
                 </Table>
-                <Anchor href={this.state.url[i]} label="Source" alignSelf="center"/>
                 </Box>
+                <Box><Anchor href={this.state.url[i]} label="Source" alignSelf="center"/></Box>
               </Tab>
             )}
             </Tabs>

@@ -101,7 +101,7 @@ export function TestingLocationDataTable(){
     }
   ]
   return(
-    <Card width="medium" height="medium" background="accent-1">
+    <Card width="medium" height="medium" background="accent-1" fill="true">
       <CardHeader size="medium" pad="small" >
         <Text weight="bold"> Testing locations near your area </Text>
         </CardHeader>

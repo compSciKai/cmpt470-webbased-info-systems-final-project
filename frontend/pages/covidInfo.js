@@ -4,11 +4,11 @@ import Link from "next/link"
 
 export default function CovidInfo(props){
   return (
-    <Box>
+    <Box background="white" pad="medium" overflow="scroll" margin="large" width="80%">
       <Head>
         <title>Bubbly | COVID-19 INFO</title> 
       </Head>
-      <Box alignSelf="center">
+      <Box alignSelf="center" width="100%">
         <Text size="xlarge" margin={{vertical: "small"}}>COVID-19 Info</Text>
         
         <Text size="large" margin={{vertical: "small"}}>Common Symptoms</Text>
@@ -54,6 +54,21 @@ export default function CovidInfo(props){
         <Text size="medium">BubbleBot retrieves COVID-19 data from the following sources.</Text>
         <Link href="http://www.bccdc.ca/health-info/diseases-conditions/covid-19/data">
           <a>BC Center For Disease Control</a>
+        </Link>
+        <Link href="https://www.islandhealth.ca/learn-about-health/covid-19/outbreaks-and-exposures">
+          <a>Island Health</a>
+        </Link>
+        <Link href="https://www.fraserhealth.ca/covid19exposure#.X8NHWGhKiHs">
+          <a>Fraser Health</a>
+        </Link>
+        <Link href="https://news.interiorhealth.ca/news/public-exposures/">
+          <a>Interior Health</a>
+        </Link>
+        <Link href="http://www.vch.ca/covid-19/public-exposures">
+          <a>Vancouver Coastal Health</a>
+        </Link>
+        <Link href="https://www.northernhealth.ca/health-topics/public-exposures-and-outbreaks?keys=outbreaks#covid-19-communityfacility-outbreaks%23non-covid-19-communityfacility-outbreaks%23covid-19-school-exposures%23covid-19-communityfacility-outbreaks#covid-19-communityfacility-outbreaks#non-covid-19-communityfacility-outbreaks#covid-19-school-exposures#covid-19-public-exposures#covid-19-communityfacility-outbreaks">
+          <a>Northern Health</a>
         </Link>
 
       </Box>
