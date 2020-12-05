@@ -27,7 +27,7 @@ export default function DefaultLayout(props) {
       </Box>
       <Box flex direction="row">
 {/* Content */}
-        <Box fill align="center" pad="small" id={'bubbles'}>
+        <Box fill align="center" pad="small" >
           {props.children}
         </Box>
 {/* Nav Bar */}
