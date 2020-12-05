@@ -1,24 +1,16 @@
-import {Grid, Button, Carousel, Image, Box} from 'grommet'
+import {Grid, Button, Carousel, Image, Box} from 'grommet';
 export function BotDetails(props){
   return(
-    <Grid 
-          rows={['medium', 'large']}
-          columns={['medium', 'large']}
-          margin="small"
-          gap="medium"
-          areas={[
-            { name: "present", start: [0, 0], end: [1, 0] },
-            { name: "instruction", start: [1, 0], end: [1, 0] },
-          ]}>
-      <Box gridArea="present">
+    <Box direction="row">
+      <Box width="35%" margin={{"horizontal": "20px"}}>
         <Carousel margin="10px" fill>
-          <Image fit="cover" src="//v2.grommet.io/assets/Wilderpeople_Ricky.jpg" />
+          <img src='/demo4.gif'style={{"width": "100%"}}/>
           <Image fit="cover" src="//v2.grommet.io/assets/IMG_4245.jpg" />
           <Image fit="cover" src="//v2.grommet.io/assets/IMG_4210.jpg" />
         </Carousel>
-        <Button primary margin="10px" label={`Get ${props.botName} bot today!`} href="https://m.me/117136746856965"></Button> 
+        <Button justify="center" primary margin="10px" label={`Get ${props.botName} bot today!`} href="https://m.me/117136746856965"></Button> 
       </Box>
-      <Box gridArea="instruction">Hello!</Box>
-    </Grid>
+      <Box width="55%" margin={{"left": "10px", "right": "20px"}}>Hello!</Box>
+    </Box>
   )
 }
