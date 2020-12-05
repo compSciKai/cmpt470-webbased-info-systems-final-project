@@ -20,10 +20,13 @@ module.exports = {
       },
     },
   },
-  initialState: {},
+  initialState: {
+      stored_ha: [],
+  },
   channels: {
     messenger: {
       enabled: true,
+      fields: ['messages', 'messaging_postbacks'],
       path: '/webhooks/messenger',
       pageId: process.env.MESSENGER_PAGE_ID,
       accessToken: process.env.MESSENGER_ACCESS_TOKEN,
@@ -31,10 +34,14 @@ module.exports = {
       appSecret: process.env.MESSENGER_APP_SECRET,
       verifyToken: process.env.MESSENGER_VERIFY_TOKEN,
       profile: {
+        getStarted: {
+          payload: 'GET_STARTED',
+        },
         greeting: [
           {
             locale: 'default',
-            text: 'Hello! Welcome to our project!',
+            text: 'Hey {{user_first_name}}! Welcome to the covide bubble-bot. \
+            To activate, press the \'get started\' button below.',
           },
         ],
       },
