@@ -8,7 +8,7 @@ export default function Bots(props){
         <title>Bubbly | BUBBLE BOTS</title> 
       </Head>
       <Text alignSelf="center" size="xlarge" margin={{"vertical": "small"}}>Bubble Bots</Text>
-      <Text>At the moment, only Facebook Messenger bot is supported</Text>
+      <Text alignSelf="center">At the moment, only Facebook Messenger bot is supported.</Text>
       <BotDetails botName="Facebook Messenger" linkToBot="m.me/117136746856965"/>
     </Box>
   )
