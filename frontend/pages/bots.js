@@ -3,22 +3,13 @@ import Head from 'next/head'
 import {BotDetails} from "../components/BotDetails"
 export default function Bots(props){
   return (
-    <Box >
+    <Box background="white" width="80%" overflow="scroll" margin="30px">
       <Head>
         <title>Bubbly | BUBBLE BOTS</title> 
       </Head>
-      <Text alignSelf="center" size="xlarge">Bubble Bots</Text>
-      <Tabs>
-        <Tab title="Discord">
-          <BotDetails botName="Discord" linkToBot="/"/>
-        </Tab>
-        <Tab title="Whatsapp">
-          <BotDetails botName="Whatsapp" linkToBot="/"/>
-        </Tab>
-        <Tab title="Facebook Messenger">
-          <BotDetails botName="Facebook Messenger" linkToBot="/"/>
-        </Tab>
-      </Tabs>
+      <Text alignSelf="center" size="xlarge" margin={{"vertical": "small"}}>Bubble Bots</Text>
+      <Text alignSelf="center">At the moment, only Facebook Messenger bot is supported.</Text>
+      <BotDetails botName="Facebook Messenger" linkToBot="m.me/117136746856965"/>
     </Box>
   )
 }

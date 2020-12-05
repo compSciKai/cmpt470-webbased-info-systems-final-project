@@ -1,5 +1,5 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Text } from 'recharts';
-import {Card, CardHeader, CardBody, } from 'grommet';
+import {Card, CardHeader, CardBody, Menu } from 'grommet';
 import React from "react";
 import { $axios } from '../plugins/axios';
 
@@ -16,15 +16,32 @@ function CustomTick(props) {
 }
 
 export class MyLineChart extends React.Component {
-
-
   constructor(props) {
     super(props);
-    this.state = {date: new Date(), chartData: [], name: 'Adam'};
+    this.state = {
+      date: new Date(),
+      chartData: [],
+      chartDescription: '',
+      chartLabel: '',
+      title: 'Daily Test Positivity Over Time'
+    };
 
+    this.menuLabels = [
+      { label: 'New Tests', onClick: () => this.reloadData('New_Tests')},
+      { label: 'Total Tests', onClick: () => this.reloadData('Total_Tests')},
+      { label: 'Positivity', onClick: () => this.reloadData('Positivity')},
+      { label: 'Turn Around Time', onClick: () => this.reloadData('Turn_Around')},
+    ]
+
+    this.charts = {
+      New_Tests: 'Daily Tests Over Time',
+      Total_Tests: 'Total Tests Over Time',
+      Positivity: 'Daily Test Positivity Over Time',
+      Turn_Around: 'Test Turn Around Time (hrs) Over Time',
+    }
   }
 
-  async componentDidMount() {
+  async reloadData(param) {
     try {
       let api_data = (await $axios.get('/scrape?type=lab')).data
       let dates = {}
@@ -34,31 +51,37 @@ export class MyLineChart extends React.Component {
         if (!dates[x.Date]) {
           dates[x.Date] = chartData.length
           let obj = {date: x.Date}
-          obj[x.Region] = x.New_Tests
+          obj[x.Region] = x[param]
           chartData.push(obj)
         } else {
-          chartData[dates[x.Date]][x.Region] = x.New_Tests
+          chartData[dates[x.Date]][x.Region] = x[param]
         }
-
-        // console.log(chartData)
       })
 
-      this.setState({chartData: chartData})
+      this.setState({chartData: chartData, title: this.charts[param]})
     } catch (e) {
       console.log(e)
     }
+  }
 
-
+  async componentDidMount() {
+    await this.reloadData('Positivity')
   }
 
   render() {
     return (
-      <Card width="100%" height="420px" background='white' >
+      <Card height="420px" background='white'>
         <CardHeader pad="xsmall" background="brand">
-          <h4 level="4">Total Daily COVID-19 Tests Over Time</h4>
+          <h4 level="4">{ this.state.title }</h4>
+          <Menu
+            items={this.menuLabels}
+            dropProps={{
+              elevation: 'xlarge',
+            }}
+          />
         </CardHeader>
         <CardBody pad="none" align="center" justify="center">
-          <ResponsiveContainer width='100%' aspect={2.5}>
+          <ResponsiveContainer width='95%' aspect={2.5}>
             <LineChart data={this.state.chartData}>
               <Line type="monotone" dataKey="Fraser" stroke="#FD6FFF" dot={false}/>
               <Line type="monotone" dataKey="Vancouver Coastal" stroke="#00873D" dot={false}/>

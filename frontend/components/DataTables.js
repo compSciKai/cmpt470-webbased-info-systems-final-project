@@ -45,8 +45,7 @@ export class CountsDataTable extends React.Component {
 
   async componentDidMount() {
       try {
-          const apiUrl = 'http://localhost:1234/scrape';
-          let data = (await $axios.get('/scrape')).data;
+          let data = (await $axios.get('/scrape?type=dailyrates')).data;
           this.setState({tableData: data});
       } catch (e) {
           console.log(e)
@@ -102,7 +101,7 @@ export function TestingLocationDataTable(){
     }
   ]
   return(
-    <Card width="medium" height="medium" background="accent-1">
+    <Card width="medium" height="medium" background="accent-1" fill="true">
       <CardHeader size="medium" pad="small" >
         <Text weight="bold"> Testing locations near your area </Text>
         </CardHeader>

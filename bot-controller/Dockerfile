@@ -7,5 +7,4 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 1234
 ENTRYPOINT ["npm", "run", "start"]

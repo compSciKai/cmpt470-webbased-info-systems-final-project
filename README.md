@@ -20,6 +20,8 @@ At the current interation (checkpoint) the following features are implemented:
 
 ![](sms.gif)
 
+- Docker and docker-compose for deployment
+
 For our final iteration, we hope to implement:
 
 - our database (storing loggin & user auth, covid data, user sessions)
@@ -28,9 +30,14 @@ For our final iteration, we hope to implement:
 
 ### Instructions
 
-Start Our GCP Instance & use the following commands in the GCP console:
+Run our GCP Instance (bubble-bot) & go to our static ip address: http://35.203.168.126/
 
+If the application fails to start after a minute, it can be restarted manually by doing the following:
 ```bash
-cd cmpt-470-project-web-raccoons
-docker-compose up
+cd /home/bubblebot
+docker-compose up -d
 ```
+
+### Notes
+
+- our facebook bot webhook requires an SSL certificate to run on a production website (to be implemented)
