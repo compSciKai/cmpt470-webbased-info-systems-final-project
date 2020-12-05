@@ -27,6 +27,41 @@ async function SayHello(context) {
   await context.sendText('Hello!');
 }
 
+async function getStatsHa(context) {
+    await context.sendButtonTemplate('For which Area?', [
+        {
+          type: 'postback',
+          title: 'Metro Vancouver',
+          payload: 'GET_HA_VCH_FRA',
+        },
+        {
+          type: 'postback',
+          title: 'BC Interior',
+          payload: 'GET_HA_INTERIOR',
+        },
+        {
+          type: 'postback',
+          title: 'Vancouver Island',
+          payload: 'GET_HA_VAN_I',
+        },
+      ]);
+}
+
+async function getStatsVan(context) {
+    await context.sendButtonTemplate('For Vancouver Coastal Health or Fraser Health?', [
+        {
+          type: 'postback',
+          title: 'Vancouver Coastal',
+          payload: 'GET_HA_VCH',
+        },
+        {
+          type: 'postback',
+          title: 'Fraser Health',
+          payload: 'GET_HA_FRASER',
+        },
+      ]);
+}
+
 async function getAllOutbreaks(context) {
     await context.sendButtonTemplate('For which Area?', [
         {
@@ -46,6 +81,7 @@ async function getAllOutbreaks(context) {
         },
       ]);
 }
+
 async function getVanOutbreaks(context) {
     await context.sendButtonTemplate('For Vancouver Coastal Health or Fraser Health?', [
         {
@@ -136,22 +172,80 @@ async function getOutbreaks(context, location) {
   }
 }
 
+async function displayData_wrapper(context) {
+    /*
+    payload('GET_TOTALS', displayData_wrapper),
+    payload('GET_HA_VCH', displayData_wrapper),
+    payload('GET_HA_INTERIOR', displayData_wrapper),
+    payload('GET_HA_VAN_I', displayData_wrapper),
+    payload('GET_HA_FRASER', displayData_wrapper),
+    */
+    let event = context.event.payload;
+    if (event == 'GET_TOTALS') {
+        let query = 'totals';
+        let location = '';
+        displayData(context, query, location);
+    }
+    else if (event == 'GET_HA_VCH') {
+        let query = 'dailyrates';
+        let location = 'Vancouver Coastal';
+        displayData(context, query, location);
+    }
+    else if (event == 'GET_HA_INTERIOR') {
+        let query = 'dailyrates';
+        let location = 'Interior';
+        displayData(context, query, location);
+    }
+    else if (event == 'GET_HA_VAN_I') {
+        let query = 'dailyrates';
+        let location = 'Vancouver Island';
+        displayData(context, query, location);
+    }
+    else if (event == 'GET_HA_FRASER') {
+        let query = 'dailyrates';
+        let location = 'Fraser';
+        displayData(context, query, location);
+    }
+}
 
-async function displayData(context) {
+
+async function displayData(context, query, location) {
   try {
     //const apiUrl = 'http://localhost:1234/scrape';
-    const apiUrl = 'http://localhost:1234/scrape?type=totals';
+    const apiUrl = 'http://localhost:1234/scrape?type=' + query; // dailyrates, totals
     let scrape = (await axios.get(apiUrl)).data;
+    console.log(scrape);
 
     var text_arr = [];
-    text_arr.push('New & Active Cases in BC:\n');
-    scrape.forEach(element => {
-      text_arr.push(element.HA_Name);
-      text_arr.push('new: ' + element.NewCases + ' active: ' + element.ActiveCases
-          + '\n');
-    });
-    text_arr.push('last updated:\n' + new Date(scrape[0].Date_Updat).toString());
-    await context.sendText(`${text_arr.join('\n')}`);
+    if (query == 'dailyrates') {
+        text_arr.push('Daily Covid-19 statistics in ' + location + ':\n');
+        var ha_data;
+        scrape.forEach(element => {
+            if (element.HA_Name == location) {
+                ha_data = element;
+            }
+        });
+        text_arr.push('Total Cases: ' + ha_data.Cases);
+        text_arr.push('New Cases: ' + ha_data.NewCases);
+        text_arr.push('Active Cases: ' + ha_data.ActiveCases);
+        text_arr.push('Total Deaths: ' + ha_data.Deaths);
+        text_arr.push('Hospitalizations: ' + ha_data.Hospitalized);
+        text_arr.push('Newly Hospitalized: ' + ha_data.CurrentlyHosp);
+        text_arr.push('In ICU: ' + ha_data.CurrentlyICU);
+        text_arr.push('Total Recovered: ' + ha_data.Recovered);
+        text_arr.push('\nlast updated:\n' + new Date(ha_data.Date_Updat).toString());
+        await context.sendText(`${text_arr.join('\n')}`);
+    }
+    else if (query == 'totals') {
+        text_arr.push('Daily Covid-19 statistics in BC:\n');
+        scrape.forEach(element => {
+          //text_arr.push(element.name);
+          text_arr.push(element.name + ': ' + element.value);
+        });
+        //text_arr.push('last updated:\n' + new Date(scrape[0].Date_Updat).toString());
+        await context.sendText(`${text_arr.join('\n')}`);
+    }
+    else { console.log('error with displayData'); }
   } catch (e) {
     console.log(e)
   }
@@ -238,8 +332,8 @@ async function startLogic(context) {
             'following commands, or type \'commands\' to see a list of all text commands', [
             {
               type: 'postback',
-              title: 'Get Covid Statistics',
-              payload: 'GET_STATISTICS',
+              title: 'Covid Cases in BC',
+              payload: 'GET_TOTALS',
             },
             {
               type: 'postback',
@@ -248,8 +342,8 @@ async function startLogic(context) {
             },
             {
               type: 'postback',
-              title: 'Get Latest BCCDC Tweet',
-              payload: 'TWEET',
+              title: 'Covid Cases in HA',
+              payload: 'GET_HA',
             },
             /*
             {
@@ -262,15 +356,43 @@ async function startLogic(context) {
     }
     else if (event == 'PERSONALIZED') {
         await context.sendText(`Payload: ${context.event.payload}`);
-        await context.sendText('This bot can store cities, and communities' +
+        await context.sendButtonTemplate('This bot can store cities, and communities' +
             ' to check for Covid-19 outbreaks. You should store cities you ' +
             ' frequent, such as places you live, work, or travel through.\n\n' +
             'Type \'set location\' followed by a city name to store that location.\n\n' +
-            ' When you are finished, type \'outbreaks\' to search in those cities.\n\n' +
-            ' you can also type \'all outbreaks\' to search by Health Authority' +
-            ' or \'outbreaks <city or health authority>\' to manually search.');
+            'When you are finished, type \'outbreaks\' to search in those cities.\n\n' +
+            'You can also type \'all outbreaks\' to search by Health Authority' +
+            ' or \'outbreaks <city or health authority>\' to manually search.', [
+            {
+              type: 'postback',
+              title: 'Other Commands',
+              payload: 'GET_CMDS',
+            },
+        ]);
     }
 }
+
+async function cmds(context) {
+    await context.sendButtonTemplate('Please select from one of the '+
+        'following commands, or type \'commands\' to see a list of all text commands', [
+        {
+          type: 'postback',
+          title: 'Covid Stats in BC',
+          payload: 'GET_TOTALS',
+        },
+        {
+          type: 'postback',
+          title: 'Search for Outbreaks',
+          payload: 'OUTBREAKS',
+        },
+        {
+          type: 'postback',
+          title: 'Covid Stats in HA',
+          payload: 'GET_HA',
+        },
+    ]);
+}
+
 
 async function cmdCatchAll(context) {
     let cmd_string = context.event.text;
@@ -394,8 +516,15 @@ module.exports = async function App() {
     // return the `SayHello` action when receiving "hello" text messages
     //text('hello', SayHello),
     // return the `displayData` action when receiving "data" text messages
-    text('data', displayData),
+    payload('GET_TOTALS', displayData_wrapper),
+    payload('GET_HA_VCH', displayData_wrapper),
+    payload('GET_HA_INTERIOR', displayData_wrapper),
+    payload('GET_HA_VAN_I', displayData_wrapper),
+    payload('GET_HA_FRASER', displayData_wrapper),
+    payload('GET_HA', getStatsHa),
+    payload('GET_HA_VCH_FRA', getStatsVan),
     text('all outbreaks', getAllOutbreaks),
+    payload('GET_CMDS', cmds),
     payload('OUTBREAKS', getAllOutbreaks),
     payload('VCH_FRA', getVanOutbreaks),
     payload('INTERIOR', outbreakwrapper),
