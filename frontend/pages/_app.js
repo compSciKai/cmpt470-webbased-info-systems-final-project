@@ -14,7 +14,7 @@ export default class MyApp extends App {
         const {Component, pageProps} = this.props
 
         return (
-            <Grommet theme={grommetTheme} full>
+            <Grommet theme={grommetTheme} full id={'bubbles'}>
               <Head>
                 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
                 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -24,7 +24,7 @@ export default class MyApp extends App {
                 <meta name="theme-color" content="#ffffff" />
               </Head>
 
-              <DefaultLayout>
+              <DefaultLayout >
                 <Component {...pageProps} />
               </DefaultLayout>
               <Footer pad="small" id={'footer'} width="100%" background={{"color":"accent-1"}}>
