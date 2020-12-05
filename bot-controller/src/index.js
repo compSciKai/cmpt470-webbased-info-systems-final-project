@@ -218,7 +218,7 @@ async function displayData(context, query, location) {
 
     var text_arr = [];
     if (query == 'dailyrates') {
-        text_arr.push('Daily Covid-19 statistics in ' + location + ':\n');
+        text_arr.push('Daily Covid-19 statistics in ' + location + ' Health:\n');
         var ha_data;
         scrape.forEach(element => {
             if (element.HA_Name == location) {
