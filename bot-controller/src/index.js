@@ -276,7 +276,6 @@ async function outbreakwrapper(context) {
 async function startLogic(context) {
     var event = '';
     if (context.event.text) {
-        await context.sendText(`triggered by ${context.event.text}`);
         event = 'GET_STARTED';
     }
     else if (context.event.isPayload) {
@@ -285,7 +284,6 @@ async function startLogic(context) {
 
     //await context.sendText(`received the payload: ${context.event.payload}`);
     if (event == 'GET_STARTED') {
-        await context.sendText(`Payload: ${context.event.payload}`);
         await context.sendText('This service will share Covid-19 cases data & ' +
                                'outbreaks information.');
         await context.sendButtonTemplate('Would you like a personalized experience?', [
@@ -307,7 +305,6 @@ async function startLogic(context) {
           ]);
     }
     else if (event == 'INFO_PERSONALIZED') {
-        await context.sendText(`Payload: ${context.event.payload}`);
         await context.sendButtonTemplate('In a personalized experience, '+
             'this bot will ask a store cities you frequent (live & work)'+
             '.\n\nIn this case, the bot can inform you of covid '+
@@ -327,7 +324,6 @@ async function startLogic(context) {
           ]);
     }
     else if (event == 'NO_PERSONALIZED') {
-        await context.sendText(`Payload: ${context.event.payload}`);
         await context.sendButtonTemplate('Please select from one of the '+
             'following commands, or type \'commands\' to see a list of all text commands', [
             {
@@ -355,7 +351,6 @@ async function startLogic(context) {
           ]);
     }
     else if (event == 'PERSONALIZED') {
-        await context.sendText(`Payload: ${context.event.payload}`);
         await context.sendButtonTemplate('This bot can store cities, and communities' +
             ' to check for Covid-19 outbreaks. You should store cities you ' +
             ' frequent, such as places you live, work, or travel through.\n\n' +
