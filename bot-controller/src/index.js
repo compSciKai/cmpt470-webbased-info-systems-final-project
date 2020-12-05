@@ -1,6 +1,7 @@
 const { router, text, payload } = require('bottender/router');
 const axios = require('axios');
 const { getHealthAuth } = require('../health_boundaries');
+const obs = require('../../backend/webserver/outbreaks');
 
 async function template(context) {
     await context.sendButtonTemplate('What do you want to do next?', [
@@ -26,9 +27,120 @@ async function SayHello(context) {
   await context.sendText('Hello!');
 }
 
+async function getAllOutbreaks(context) {
+    await context.sendButtonTemplate('For which Area?', [
+        {
+          type: 'postback',
+          title: 'Metro Vancouver',
+          payload: 'VCH_FRA',
+        },
+        {
+          type: 'postback',
+          title: 'BC Interior',
+          payload: 'INTERIOR',
+        },
+        {
+          type: 'postback',
+          title: 'Vancouver Island',
+          payload: 'VAN_I',
+        },
+      ]);
+}
+async function getVanOutbreaks(context) {
+    await context.sendButtonTemplate('For Vancouver Coastal Health or Fraser Health?', [
+        {
+          type: 'postback',
+          title: 'Vancouver Coastal',
+          payload: 'VCH',
+        },
+        {
+          type: 'postback',
+          title: 'Fraser Health',
+          payload: 'FRASER',
+        },
+      ]);
+}
+
+async function getOutbreaks(context, location) {
+  try {
+    const apiUrl = 'http://localhost:1234/outbreaks';
+    let outbreaks = (await axios.get(apiUrl)).data;
+    //console.log(outbreaks[0]);
+    location = String(location).toLowerCase();
+    // create links between outbreak service names, and health_boundaries names
+    let has = ['vancouver coastal', 'vancouver island', 'interior', 'fraser'];
+    let obs_has = {'vancouver coastal':'VCH Health', 'vancouver island':'Island Health',
+        'interior':'Interior Health', 'fraser':'Fraser Health'};
+    // if location is ha
+    if (has.includes(location)) {
+        // list all outbreaks in that ha
+        console.log('ha found from message...');
+        var text_arr = [];
+        text_arr.push('Most recent outbreaks in ' + obs_has[location] + ': \n');
+        var outbreak_ha;
+        outbreaks.forEach(el => {
+            if (el.name == obs_has[location]) {
+                console.log('ha found from obs data...');
+                outbreak_ha = el;
+                console.log(outbreak_ha);
+            }
+        });
+        outbreak_ha.outbreaks.forEach(el => {
+          text_arr.push('City: ' + el.community);
+          text_arr.push('Name: ' + el.location);
+          text_arr.push('Address: ' + el.address);
+          text_arr.push('Date: ' + el.date + '\n');
+        });
+        // share link at end
+        text_arr.push('Find more outbreak info in ' + obs_has[location] + ' here:');
+        text_arr.push(outbreak_ha.url);
+        await context.sendText(`${text_arr.join('\n')}`);
+    }
+    // else location is a city/community
+    else {
+        console.log('city found from message: ' + location);
+        let haOfLocation = String(getHealthAuth(location)).toLowerCase();
+        //console.log('ha of city is: ' + haOfLocation);
+        var text_arr = [];
+        var outbreak_ha;
+        // filter data by ha
+        outbreaks.forEach(el => {
+            //console.log('el.name: ' + el.name + ', obs_has[haOfLocation]: ' + obs_has[haOfLocation]);
+            if (el.name == obs_has[haOfLocation]) {
+                console.log('ha found from obs data...');
+                outbreak_ha = el;
+                //console.log(outbreak_ha);
+            }
+        });
+        text_arr.push('Most recent outbreaks in ' + location + ': \n');
+        outbreak_ha.outbreaks.forEach(el => {
+            if (String(el.community).toLowerCase() == location) {
+                console.log('city found from obs data...');
+                text_arr.push('City: ' + el.community);
+                text_arr.push('Name: ' + el.location);
+                text_arr.push('Address: ' + el.address);
+                text_arr.push('Date: ' + el.date + '\n');
+            }
+        });
+        // check if any outbreaks found in that city
+        if (text_arr.length == 1) {
+            text_arr[0] = 'No outbreaks found in ' + location + ' recently\n';
+        }
+        // share link at end
+        text_arr.push('Find more outbreak info in ' + obs_has[haOfLocation] + ' here:');
+        text_arr.push(outbreak_ha.url);
+        await context.sendText(`${text_arr.join('\n')}`);
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+
 async function displayData(context) {
   try {
-    const apiUrl = 'http://localhost:1234/scrape';
+    //const apiUrl = 'http://localhost:1234/scrape';
+    const apiUrl = 'http://localhost:1234/scrape?type=totals';
     let scrape = (await axios.get(apiUrl)).data;
 
     var text_arr = [];
@@ -51,6 +163,22 @@ async function restart(context) {
     return startLogic(context);
 }
 
+async function outbreakwrapper(context) {
+    let event = context.event.payload;
+    if (event == 'FRASER') {
+        getOutbreaks(context, 'fraser');
+    }
+    else if (event == 'INTERIOR') {
+        getOutbreaks(context, 'interior');
+    }
+    else if (event == 'VCH') {
+        getOutbreaks(context, 'vancouver coastal');
+    }
+    else if (event == 'VAN_I') {
+        getOutbreaks(context, 'vancouver island');
+    }
+}
+
 async function startLogic(context) {
     var event = '';
     if (context.event.text) {
@@ -64,6 +192,8 @@ async function startLogic(context) {
     //await context.sendText(`received the payload: ${context.event.payload}`);
     if (event == 'GET_STARTED') {
         await context.sendText(`Payload: ${context.event.payload}`);
+        await context.sendText('This service will share Covid-19 cases data & ' +
+                               'outbreaks information.');
         await context.sendButtonTemplate('Would you like a personalized experience?', [
             {
               type: 'postback',
@@ -72,12 +202,12 @@ async function startLogic(context) {
             },
             {
               type: 'postback',
-              title: 'No thanks',
+              title: 'No Thanks',
               payload: 'NO_PERSONALIZED',
             },
             {
               type: 'postback',
-              title: 'More info',
+              title: 'More Info',
               payload: 'INFO_PERSONALIZED',
             },
           ]);
@@ -85,10 +215,11 @@ async function startLogic(context) {
     else if (event == 'INFO_PERSONALIZED') {
         await context.sendText(`Payload: ${context.event.payload}`);
         await context.sendButtonTemplate('In a personalized experience, '+
-            'this bot will ask a few questions and store the city you live '+
-            'and work in.\n\nIn this case, the bot can inform you of covid '+
-            'outbreaks in your area.\n\nIf you do not select personalized,'+
-            'the bot can ask you which city to search for an outbreak', [
+            'this bot will ask a store cities you frequent (live & work)'+
+            '.\n\nIn this case, the bot can inform you of covid '+
+            'outbreaks in your area by typing \'outbreaks\'.\n\n'+
+            'If you do not select personalized, '+
+            'You can still manually search for an outbreak', [
             {
               type: 'postback',
               title: 'Personalized',
@@ -96,7 +227,7 @@ async function startLogic(context) {
             },
             {
               type: 'postback',
-              title: 'Not personalized',
+              title: 'Not Personalized',
               payload: 'NO_PERSONALIZED',
             },
           ]);
@@ -107,12 +238,12 @@ async function startLogic(context) {
             'following commands, or type \'commands\' to see a list of all text commands', [
             {
               type: 'postback',
-              title: 'Get Covid statistics in BC today',
+              title: 'Get Covid Statistics',
               payload: 'GET_STATISTICS',
             },
             {
               type: 'postback',
-              title: 'Search for outbreaks',
+              title: 'Search for Outbreaks',
               payload: 'OUTBREAKS',
             },
             {
@@ -131,15 +262,20 @@ async function startLogic(context) {
     }
     else if (event == 'PERSONALIZED') {
         await context.sendText(`Payload: ${context.event.payload}`);
-        await context.sendText('Which city do you live in? \n\n' +
-            'Type "location" followed by your city');
+        await context.sendText('This bot can store cities, and communities' +
+            ' to check for Covid-19 outbreaks. You should store cities you ' +
+            ' frequent, such as places you live, work, or travel through.\n\n' +
+            'Type \'set location\' followed by a city name to store that location.\n\n' +
+            ' When you are finished, type \'outbreaks\' to search in those cities.\n\n' +
+            ' you can also type \'all outbreaks\' to search by Health Authority' +
+            ' or \'outbreaks <city or health authority>\' to manually search.');
     }
 }
 
 async function cmdCatchAll(context) {
     let cmd_string = context.event.text;
     let cmd = cmd_string.split(" ");
-    console.log(cmd);
+    console.log('cmd: ' + cmd);
     // -----------------------------------
     // search for location set command
     // -----------------------------------
@@ -149,35 +285,38 @@ async function cmdCatchAll(context) {
             cmd.shift();
             // search if city exists
             city = cmd.join(" ");
+            city = String(city).toLowerCase();
             let ha = getHealthAuth(city);
+            let ha_upper = ha;
             ha = ha.toLowerCase();
             if (ha != "not found") {
-                await context.sendText('that city is in the ' + ha + ' Health Authority'+
-                '\n\nI\'ll remember to check that area when you call the \'outbreaks\''+
-                ' command');
-                if (context.state.stored_has) {
+                await context.sendText('that city is in the ' + ha_upper + ' Health Authority'+
+                '\n\nI\'ll remember to check ' + city + ' when you call the \'outbreaks\''+
+                ' command.\n\nType \'clear locations\' to remove all stored locations.');
+                // if previous state stored
+                if (context.state.stored_cities) {
                     console.log('state found')
-                    var stored_has = context.state.stored_has;
-                    console.log(stored_has);
-                    if (stored_has.includes(ha)) {
-                        await context.sendText(`ha already stored: ${stored_has}`);
+                    var stored_cities = context.state.stored_cities;
+                    console.log('stored cities: ' + stored_cities);
+                    if (stored_cities.includes(city)) {
+                        await context.sendText(`city already stored: ${stored_cities}`);
                     }
                     else {
-                        stored_has.push(ha);
+                        stored_cities.push(city);
                         context.setState({
-                            stored_has,
+                            stored_cities,
                         });
-                        await context.sendText(`stored has: ${stored_has}`);
+                        await context.sendText(`stored cities: ${stored_cities}`);
                     }
                 }
                 else {
                     console.log('state not found')
-                    var stored_has = [];
-                    stored_has.push(ha);
+                    var stored_cities = [];
+                    stored_cities.push(city);
                     context.setState({
-                        stored_has,
+                        stored_cities,
                     });
-                    await context.sendText(`stored has: ${stored_has}`);
+                    await context.sendText(`stored cities: ${stored_cities}`);
                 }
             }
             else {
@@ -190,12 +329,13 @@ async function cmdCatchAll(context) {
     // -----------------------------------
     // location remove command
     // -----------------------------------
-    else if (cmd[0] == 'clear' && cmd[1] == 'ha') {
-        var stored_has = undefined;
+    else if (cmd[0] == 'clear' && (cmd[1] == 'ha' || cmd[1] == 'locations' ||
+             cmd[1] == 'location' || cmd[1] == 'city')) {
+        var stored_cities = undefined;
         context.setState({
-            stored_has,
+            stored_cities,
         });
-        await context.sendText('Removed stored health authorities');
+        await context.sendText('Removed stored locations');
     }
     // -----------------------------------
     // outbreaks command
@@ -205,11 +345,13 @@ async function cmdCatchAll(context) {
         if (cmd.length == 1) {
             console.log('no parameters in outbreaks function')
             // if stored has
-            if (context.state.stored_has) {
+            if (context.state.stored_cities) {
                 console.log('state found');
-                var stored_has = context.state.stored_has;
-                // TODO add get outbreaks function
-                console.log('outbreaks command would be called here');
+                var stored_cities = context.state.stored_cities;
+                console.log('stored_cities: ' + stored_cities);
+                for (i in stored_cities) {
+                    getOutbreaks(context, stored_cities[i]);
+                }
             }
             // if no stored has
             else {
@@ -223,7 +365,7 @@ async function cmdCatchAll(context) {
                     '\n   - then \'outbreaks\'');
             }
         }
-        // if parameters
+        // if parameters (like a location)
         else {
             console.log('parameters found in outbreaks function');
             cmd.shift();
@@ -238,8 +380,8 @@ async function cmdCatchAll(context) {
                 await context.sendText('or syntax incorrect');
             }
             else {
-                // TODO add outbreaks function
-                console.log('would run outbreaks command here');
+                console.log('starting outbreaks command...');
+                getOutbreaks(context, cmd_str);
             }
         }
     }
@@ -253,6 +395,13 @@ module.exports = async function App() {
     //text('hello', SayHello),
     // return the `displayData` action when receiving "data" text messages
     text('data', displayData),
+    text('all outbreaks', getAllOutbreaks),
+    payload('OUTBREAKS', getAllOutbreaks),
+    payload('VCH_FRA', getVanOutbreaks),
+    payload('INTERIOR', outbreakwrapper),
+    payload('VAN_I', outbreakwrapper),
+    payload('VCH', outbreakwrapper),
+    payload('FRASER', outbreakwrapper),
     payload('*', startLogic),
     text(['restart', 'begin', 'hi', 'hey', 'hello'], restart),
     text('*', cmdCatchAll),
