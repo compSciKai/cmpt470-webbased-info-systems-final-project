@@ -1,23 +1,7 @@
 const { router, text, payload } = require('bottender/router');
 const axios = require('axios');
 const { getHealthAuth } = require('../health_boundaries');
-const obs = require('../../backend/webserver/outbreaks');
-
-async function template(context) {
-    await context.sendButtonTemplate('What do you want to do next?', [
-      {
-        type: 'postback',
-        title: 'Option 1',
-        payload: 'OPTION_1'
-      },
-      {
-        type: 'postback',
-        title: 'Option 2',
-        payload: 'OPTION_2',
-      },
-    ]);
-}
-
+//const obs = require('../../backend/webserver/outbreaks');
 
 async function SayHi(context) {
   await context.sendText('Hi!');
@@ -36,8 +20,8 @@ async function getStatsHa(context) {
         },
         {
           type: 'postback',
-          title: 'BC Interior',
-          payload: 'GET_HA_INTERIOR',
+          title: 'BC Interior or North',
+          payload: 'GET_HA_INTERIOR_NORTH',
         },
         {
           type: 'postback',
@@ -46,6 +30,22 @@ async function getStatsHa(context) {
         },
       ]);
 }
+
+async function getStatsIntNorth(context) {
+    await context.sendButtonTemplate('For Interior Health or Northern Health?', [
+        {
+          type: 'postback',
+          title: 'Interior Health',
+          payload: 'GET_HA_INTERIOR',
+        },
+        {
+          type: 'postback',
+          title: 'Northern Health',
+          payload: 'GET_HA_NORTH',
+        },
+      ]);
+}
+
 
 async function getStatsVan(context) {
     await context.sendButtonTemplate('For Vancouver Coastal Health or Fraser Health?', [
@@ -71,13 +71,28 @@ async function getAllOutbreaks(context) {
         },
         {
           type: 'postback',
-          title: 'BC Interior',
-          payload: 'INTERIOR',
+          title: 'BC Interior or North',
+          payload: 'INTERIOR_NORTH',
         },
         {
           type: 'postback',
           title: 'Vancouver Island',
           payload: 'VAN_I',
+        },
+      ]);
+}
+
+async function getIntNorthOutbreaks(context) {
+    await context.sendButtonTemplate('For Interior Health or Northern Health?', [
+        {
+          type: 'postback',
+          title: 'Interior Health',
+          payload: 'INTERIOR',
+        },
+        {
+          type: 'postback',
+          title: 'Northern Health',
+          payload: 'NORTH',
         },
       ]);
 }
@@ -101,12 +116,12 @@ async function getOutbreaks(context, location) {
   try {
     const apiUrl = 'http://localhost:1234/outbreaks';
     let outbreaks = (await axios.get(apiUrl)).data;
-    //console.log(outbreaks[0]);
+    console.log(outbreaks);
     location = String(location).toLowerCase();
     // create links between outbreak service names, and health_boundaries names
-    let has = ['vancouver coastal', 'vancouver island', 'interior', 'fraser'];
+    let has = ['vancouver coastal', 'vancouver island', 'interior', 'fraser', 'northern'];
     let obs_has = {'vancouver coastal':'VCH Health', 'vancouver island':'Island Health',
-        'interior':'Interior Health', 'fraser':'Fraser Health'};
+        'interior':'Interior Health', 'fraser':'Fraser Health', 'northern':'Northern Health'};
     // if location is ha
     if (has.includes(location)) {
         // list all outbreaks in that ha
@@ -122,7 +137,10 @@ async function getOutbreaks(context, location) {
             }
         });
         outbreak_ha.outbreaks.forEach(el => {
-          text_arr.push('City: ' + el.community);
+          var community;
+          if (!(el.community)) { community = "N/A"; }
+          else { community = el.community; }
+          text_arr.push('City: ' + community);
           text_arr.push('Name: ' + el.location);
           text_arr.push('Address: ' + el.address);
           text_arr.push('Date: ' + el.date + '\n');
@@ -196,6 +214,11 @@ async function displayData_wrapper(context) {
         let location = 'Interior';
         displayData(context, query, location);
     }
+    else if (event == 'GET_HA_NORTH') {
+        let query = 'dailyrates';
+        let location = 'Northern';
+        displayData(context, query, location);
+    }
     else if (event == 'GET_HA_VAN_I') {
         let query = 'dailyrates';
         let location = 'Vancouver Island';
@@ -264,6 +287,9 @@ async function outbreakwrapper(context) {
     }
     else if (event == 'INTERIOR') {
         getOutbreaks(context, 'interior');
+    }
+    else if (event == 'NORTH') {
+        getOutbreaks(context, 'northern');
     }
     else if (event == 'VCH') {
         getOutbreaks(context, 'vancouver coastal');
@@ -506,23 +532,22 @@ async function cmdCatchAll(context) {
 
 module.exports = async function App() {
   return router([
-    // return the `SayHi` action when receiving "hi" text messages
-    //text(['hi', 'hola', 'hey'], SayHi),
-    // return the `SayHello` action when receiving "hello" text messages
-    //text('hello', SayHello),
-    // return the `displayData` action when receiving "data" text messages
     payload('GET_TOTALS', displayData_wrapper),
     payload('GET_HA_VCH', displayData_wrapper),
     payload('GET_HA_INTERIOR', displayData_wrapper),
+    payload('GET_HA_NORTH', displayData_wrapper),
     payload('GET_HA_VAN_I', displayData_wrapper),
     payload('GET_HA_FRASER', displayData_wrapper),
     payload('GET_HA', getStatsHa),
     payload('GET_HA_VCH_FRA', getStatsVan),
+    payload('GET_HA_INTERIOR_NORTH', getStatsIntNorth),
     text('all outbreaks', getAllOutbreaks),
     payload('GET_CMDS', cmds),
     payload('OUTBREAKS', getAllOutbreaks),
     payload('VCH_FRA', getVanOutbreaks),
+    payload('INTERIOR_NORTH', getIntNorthOutbreaks),
     payload('INTERIOR', outbreakwrapper),
+    payload('NORTH', outbreakwrapper),
     payload('VAN_I', outbreakwrapper),
     payload('VCH', outbreakwrapper),
     payload('FRASER', outbreakwrapper),

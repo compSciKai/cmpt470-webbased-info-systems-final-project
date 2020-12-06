@@ -55,7 +55,7 @@ let northern = ["haida gwaii", "snow country", "prince rupoert", "upper skeena",
 
 function getHealthAuth(city) {
     // check for health authority name
-    ha_name = ["interior", "fraser", "vancouver island", "vancouver coastal"]
+    ha_name = ["interior", "fraser", "vancouver island", "vancouver coastal", "northern"]
     if (ha_name.includes(city)) { return city; }
     city = city.toLowerCase();
     for (i in fraser) {
@@ -69,6 +69,9 @@ function getHealthAuth(city) {
     }
     for (i in vancouver_island) {
         if (vancouver_island[i] == city) { return "Vancouver Island"; }
+    }
+    for (i in northern) {
+        if (northern[i] == city) { return "Northern"; }
     }
     // if city not found
     return "not found";
