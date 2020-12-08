@@ -20,7 +20,7 @@ Four our final project, we implemented:
 new cases, active cases, deaths, and overall cases in BC. A user can also search for statistics
 filtered by each health region.
 
-- accessible here: m.me/117136746856965
+- accessible here: [FB Messenger Bot](m.me/117136746856965)
 
 ![](demo4.gif)
 
