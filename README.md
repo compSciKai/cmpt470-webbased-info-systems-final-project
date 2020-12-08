@@ -4,33 +4,37 @@
 
 The objective of our project is to create bubble tracing and COVID-19 information chat interface, specifically for BC, Canada. 
 
-The goal of our project, is for people to access Covid-19 data from chat apps, such as Whatsapp and Facebook Messenger, and through the dashboard on our webapp.
+The goal of our project, is for people to access Covid-19 data from a Facebook Messenger bot.
 
-At the current interation (checkpoint) the following features are implemented:
+Four our final project, we implemented:
 
-- A webapp Dashboard & web scraper receiving data from http://www.bccdc.ca/health-info/diseases-conditions/covid-19/data
+- A webapp Dashboard showing covid-19 statistics, and charts.
 
-![](dash.gif)
+![](dashboard.png)
 
-- Chatbot (On Facebook Messenger) responding to 'hi' (for testing), and 'data' (to show current & active cases) from https://www.facebook.com/SFU-Computing-470-Final-Project-117136746856965
+- & a web scraper service, receiving data from http://www.bccdc.ca/health-info/diseases-conditions/covid-19/data
 
-![](bot.gif)
+![](outbreaks.png)
 
-- Chatbot (On Whatsapp/SMS) -- Difficult to test (See ./bot-controller/readme.txt for more info)
+- Chatbot (On Facebook Messenger) with features such as searching for outbreaks in different cities, or searching a whole health region boundary. A user can also get statistics such as, 
+new cases, active cases, deaths, and overall cases in BC. A user can also search for statistics
+filtered by each health region.
 
-![](sms.gif)
+- accessible here: m.me/117136746856965
+
+![](demo4.gif)
+
+- The bot service needs to be reviewed by Facebook to be interactable with the public,
+however, we can give testing privileges to TAs and Professor Chan after they make an
+interaction with the bot. 
+
+- Our database (caching new covid data, updating every hour)
 
 - Docker and docker-compose for deployment
 
-For our final iteration, we hope to implement:
-
-- our database (storing loggin & user auth, covid data, user sessions)
-- deployment of chatbots to user group chats
-- bot logic to allow people to trace their contacts, give periodic reports, & message contacts if someone is covid positive
-
 ### Instructions
 
-Run our GCP Instance (bubble-bot) & go to our static ip address: http://35.203.168.126/
+Run our GCP Instance (bubble-bot) & go to our dashboard website: http://bubble-bot.com
 
 If the application fails to start after a minute, it can be restarted manually by doing the following:
 ```bash
@@ -38,6 +42,3 @@ cd /home/bubblebot
 docker-compose up -d
 ```
 
-### Notes
-
-- our facebook bot webhook requires an SSL certificate to run on a production website (to be implemented)
